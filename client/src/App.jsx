@@ -4,13 +4,14 @@ import viteLogo from '/vite.svg'
 import Home from './routes/home'
 import Generate from '@/components/test/generate'
 import History from './components/features/history'
+import Visuals from './components/test/visuals'
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <>
-      <History/>
+      <Visuals/>
     </>
   )
 }
