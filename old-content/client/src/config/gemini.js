@@ -4,8 +4,6 @@ import {
   HarmBlockThreshold,
 } from "@google/generative-ai";
 
-const genAI = new GoogleGenerativeAI("AIzaSyDPTFNiSqIKZ-7t5XvnfR4ovGAV5kAfwrY");
-
 const model = genAI.getGenerativeModel({
   model: "gemini-1.5-flash",
 });
