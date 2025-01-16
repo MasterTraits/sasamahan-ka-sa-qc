@@ -1,8 +1,7 @@
-import React, { useContext } from 'react';
-import { UserInputContext } from '@/contexts/UserInputContext';
+import { useUserContext } from "@/contexts/useUserContext";
 
 export default function UserChatBubble() {
-  const { userInput } = useContext(UserInputContext);
+  const { userInput } = useUserContext();
 
 return (
     <main className="flex justify-end">

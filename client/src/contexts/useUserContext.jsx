@@ -1,6 +1,6 @@
-import React, { createContext, useState } from "react";
+import { createContext, useContext, useState } from "react";
 
-export const UserInputContext = createContext();
+const UserInputContext = createContext();
 
 export const UserInputProvider = ({ children }) => {
   const [userInput, setUserInput] = useState("");
@@ -11,3 +11,7 @@ export const UserInputProvider = ({ children }) => {
     </UserInputContext.Provider>
   );
 };
+
+export function useUserContext() {
+  return useContext(UserInputContext)
+}
