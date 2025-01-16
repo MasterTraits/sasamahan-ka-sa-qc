@@ -3,8 +3,11 @@ import { UserInputContext } from "@/contexts/UserInputContext"; // Import contex
 import Header from "./aiChatComponents/header";
 import Footer from "./aiChatComponents/footer";
 import UserChatBubble from "./aiChatComponents/userChatBubble";
+
+
+
 export default function AiChat() {
-  const { userInput } = useContext(UserInputContext); 
+  const { userInput } = useContext(UserInputContext);
 
   return (
     <main className="h-screen w-[25%] shadow-xl flex flex-col">
@@ -14,6 +17,7 @@ export default function AiChat() {
         {userInput &&(
           <UserChatBubble/>
         )}
+        
       </section>
       <Footer />
     </main>

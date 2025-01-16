@@ -8,7 +8,6 @@ const router = createBrowserRouter(
       <Route index element={<Home />} />
       <Route path="home" element={<Home />} />
       <Route path="desktop" element={<Dashboard />} />
-
     </Route>
   )
 );
