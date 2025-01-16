@@ -8,6 +8,12 @@
   url('./assets/fonts/Montserrat/Montserrat-VariableFont_wght.ttf')
 }
 
+@font-face {
+  font-family: Jost;
+  src: local("Jost"),
+  url('./assets//fonts/Jost/Jost-VariableFont_wght.ttf')
+}
+
 @layer components {
   .all-\[unset\] {
     all: unset;
@@ -36,6 +42,10 @@
 @layer utilities {
   .font-montserrat {
     font-family: 'Montserrat';
+  }
+
+  .font-jost {
+    font-family: 'Jost'
   }
 
   .text-balance {
