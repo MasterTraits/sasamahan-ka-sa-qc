@@ -21,7 +21,7 @@ const navigationItems = [
 export default function Home() {
   return (
     <div className="bg-white flex flex-row justify-center w-full">
-      <div className="bg-gradient-to-b from-[#F4BE37] via-white to-[#4690FF] w-[402px] h-[874px] relative">
+      <div className="bg-gradient-to-b from-[#F4BE37] via-white via-[#F6F7FB] to-[#4690FF] h-screen w-full relative">
         <header className="flex items-center justify-between px-8 pt-6">
           <div className="flex items-center gap-3">
             <Menu className="h-5 w-5 text-gray-600" />
