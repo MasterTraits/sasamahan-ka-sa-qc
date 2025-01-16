@@ -21,7 +21,7 @@ const navigationItems = [
 export default function Home() {
   return (
     <div className="bg-white flex flex-row justify-center w-full">
-      <div className="bg-gradient-to-b from-[#F4BE37] via-white via-[#F6F7FB] to-[#4690FF] h-screen w-full relative">
+      <div className="gradient-custom h-screen w-full relative">
         <header className="flex items-center justify-between px-8 pt-6">
           <div className="flex items-center gap-3">
             <Menu className="h-5 w-5 text-gray-600" />
@@ -41,7 +41,7 @@ export default function Home() {
         </header>
 
         <div className="absolute w-[363px] h-[75px] top-[324px] left-[39px]">
-          <h1 className="font-normal text-3xl text-[#383838] tracking-tight">
+          <h1 className="font-normal text-3xl text-[#383838] tracking-tight font-montserrat">
             Harness the Power of Data with
             <span className="block text-[35px] font-medium bg-gradient-to-b from-[#F4BE37] to-[#3F55FF] bg-clip-text text-transparent text-center mt-2">
               GABAY

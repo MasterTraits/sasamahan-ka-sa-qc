@@ -2,6 +2,12 @@
 @tailwind utilities;
 @tailwind base;
 
+@font-face {
+  font-family: Montserrat;
+  src: local("Montserrat"),
+  url('./assets/fonts/Montserrat/Montserrat-VariableFont_wght.ttf')
+}
+
 @layer components {
   .all-\[unset\] {
     all: unset;
@@ -27,38 +33,17 @@
  
 }
 
-@media (prefers-color-scheme: white) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-::selection {
-  background: #f4be37;
-  color: black;
-}
-
 @layer utilities {
+  .font-montserrat {
+    font-family: 'Montserrat';
+  }
+
   .text-balance {
     text-wrap: balance;
   }
 
   .gradient-custom {
-    background: linear-gradient(
-      to right,
-      #3f56ff,
-      #f4be37 70%
-    ); /* Set your gradient colors here */
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    background: linear-gradient(188deg, #F4BE37 -0.67%, #FFF 19.51%, #F6F7FB 81.92%, #4690FF 96.47%);
   }
   
     /* BUTTON */
@@ -237,6 +222,8 @@ body {
 
 
 @layer base {
+
+
   :root {
     --background: 0 0% 100%;
     --foreground: 222.2 47.4% 11.2%;
