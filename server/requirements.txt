@@ -1,0 +1,13 @@
+generativeai
+requests
+jsonify
+fastapi
+uvicorn
+numpy
+sentence-transformers
+google-generativeai
+python-dotenv
+python-multipart
+logging
+pydantic
+typing
