@@ -23,7 +23,11 @@ const historyData = {
   ],
 };
 
+import { useHistory } from "@/store/useHistory";
+
 export default function History() {
+  const closeMenu = useHistory((state)=> state.closeMenu)
+
   return (
     <Card className="absolute left-0 top-0 w-80 h-full bg-stone-700 border-none rounded-none backdrop-blur z-50">
       <CardContent className="flex flex-col gap-8 p-[18px] pt-8">
@@ -36,7 +40,9 @@ export default function History() {
               <span className="font-semibold">New Advice</span>
               <Plus className="w-[18px] h-[18px]" />
             </Button>
-            <button >
+            <button
+              onClick={closeMenu} 
+            >
               <ArrowRight className="size-7 text-[#afafaf]" />
             </button>
           </div>

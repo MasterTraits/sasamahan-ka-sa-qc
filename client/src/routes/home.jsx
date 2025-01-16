@@ -1,22 +1,25 @@
+// shad@cn
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import {
-  Bell,
-  Menu,
   Paperclip,
   Send,
-  LucideUserCircle2,
 } from "lucide-react";
 
+// Project Components
 import Footer_Navigator from '@/components/layout/nav'
+import Header from '@/components/layout/header'
 import AI_MIC from "@/assets/mic";
 
-import { useState } from "react";
+// Utilities
 import History from "@/components/features/history";
+import { useState, useCallback } from 'react'
+import { useHistory } from "@/store/useHistory";
 
 export default function Home() {
-  const [menu, setMenu] = useState(false);
+  const menu = useHistory((state)=> state.menu)
+
   const [textContent, setTextContent] = useState({
     text: "",
     textLength: "",
@@ -24,26 +27,7 @@ export default function Home() {
 
   return (
     <div className="relative gradient-custom h-screen w-full overflow-hidden">
-      <header className="flex items-center justify-between mx-4 mt-6">
-        <button
-          onClick={()=> setMenu(true)} 
-          className="flex items-center gap-3 py-1 px-3 hover:bg-white rounded-3xl"
-        >
-          <Menu className="h-5 w-5 text-neutral-600" />
-          <span className="font-bold text-lg text-neutral-600 tracking-tight">
-            Menu
-          </span>
-        </button>
-
-        <div className="flex items-center mx-2 gap-5 pr-2 *:p-1 *:rounded-full">
-          <div className="hover:bg-white text-center">
-            <Bell className="text-neutral-600" />
-          </div>
-          <div className="hover:bg-white text-center">
-            <LucideUserCircle2 className="text-neutral-600" />
-          </div>
-        </div>
-      </header>
+      <Header text="Menu"/>
 
       <main className="flex flex-col gap-7 justify-center items-start mx-7 h-full pb-32">
         <h1 className="font-normal text-4xl text-[#383838] tracking-tighter font-montserrat mx-2">
