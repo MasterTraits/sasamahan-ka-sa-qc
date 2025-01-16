@@ -1,5 +1,5 @@
 import { createBrowserRouter, createRoutesFromChildren, Route, RouterProvider } from 'react-router-dom';
-import Dashboard from './desktop/dashboard';
+import Dashboard from './components/desktop/dashboard';
 import Home from './routes/home';
 
 const router = createBrowserRouter(
