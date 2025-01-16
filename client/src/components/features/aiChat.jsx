@@ -3,7 +3,6 @@ import Footer from "./aiChatComponents/footer";
 import UserChatBubble from "./aiChatComponents/userChatBubble";
 import { useUserContext } from "@/contexts/useUserContext";
 
-
 export default function AiChat() {
   const { userInput } = useUserContext()
 
