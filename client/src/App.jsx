@@ -1,19 +1,21 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import Home from './routes/home'
-import Generate from '@/components/test/generate'
-import History from './components/features/history'
-import Visuals from './components/test/visuals'
+import { createBrowserRouter, createRoutesFromChildren, Route, RouterProvider } from 'react-router-dom';
+import Dashboard from './desktop/dashboard';
+import Home from './routes/home';
 
-function App() {
-  const [count, setCount] = useState(0)
+const router = createBrowserRouter(
+  createRoutesFromChildren(
+    <Route>
+      <Route index element={<Home />} />
+      <Route path="home" element={<Home />} />
+      <Route path="desktop" element={<Dashboard />} />
+    </Route>
+  )
+);
 
+export default function App() {
   return (
     <>
-      <Visuals/>
+      <RouterProvider router={router} />
     </>
-  )
+  );
 }
-
-export default App
