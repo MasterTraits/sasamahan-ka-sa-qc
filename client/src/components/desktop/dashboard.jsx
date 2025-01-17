@@ -14,8 +14,6 @@ function Dashboard() {
       <h1>Dashboard</h1>
     </section>
     </main>
-
-
     </>
   );
 }
