@@ -9,8 +9,8 @@ import {
 import './index.css'
 
 import Dashboard from './routes/desktop/dashboard';
-import Home from './routes/home';
-import View from './routes/view';
+import Home from './routes/mobile/home';
+import View from './routes/mobile/view';
 
 const router = createBrowserRouter(
   createRoutesFromChildren(
