@@ -1,40 +1,26 @@
 
+const API_ENDPOINT = "http://localhost:8000/api/chat";
 
-import {
-  GoogleGenerativeAI,
-  HarmCategory,
-  HarmBlockThreshold,
-} from "@google/generative-ai";
-
-const apiKey = "AIzaSyBzOdhfw8Js1bamIm20CBAHv-7msVV9ofA"; 
-const genAI = new GoogleGenerativeAI(apiKey);
-
-const model = genAI.getGenerativeModel({
-  model: "gemini-1.5-flash",
-});
-
-const generationConfig = {
-  temperature: 1,
-  topP: 0.95,
-  topK: 64,
-  maxOutputTokens: 8192,
-  responseMimeType: "text/plain",
-};
-
-async function runChat(prompt) {
+const runChat = async (userInput) => {
   try {
-    const chatSession = model.startChat({
-      generationConfig,
-      history: [],
+    const response = await fetch(API_ENDPOINT, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ message: userInput }),
     });
 
-    const result = await chatSession.sendMessage(prompt);
-    console.log("AI Response:", result.response.text); 
-    return result.response.text; 
+    if (!response.ok) {
+      throw new Error(`API request failed with status ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data.message; 
   } catch (error) {
-    console.error("Error in AI API call:", error);
-    throw error; 
+    console.error("Error during API request:", error);
+    return "An error occurred. Please try again later."; 
   }
-}
+};
 
 export default runChat;
