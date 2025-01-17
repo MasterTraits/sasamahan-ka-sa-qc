@@ -25,23 +25,25 @@ const historyData = {
 
 export default function History() {
   return (
-    <Card className="w-[326px] h-[878px] bg-[#33363fe6] border-none rounded-none">
+    <Card className="absolute left-0 top-0 w-80 h-full bg-stone-700 border-none rounded-none backdrop-blur z-50">
       <CardContent className="flex flex-col gap-8 p-[18px] pt-8">
         <div className="flex flex-col gap-[15px]">
           <div className="flex items-center gap-[31px]">
             <Button
               variant="ghost"
-              className="flex items-center gap-2 w-[217px] h-[53px] bg-[#33363f] rounded-[100px] text-[#afafaf] hover:bg-[#33363f]/90"
+              className="flex items-center gap-2 w-[217px] h-[53px] bg-[#33363f] rounded-3xl text-[#afafaf]"
             >
               <span className="font-semibold">New Advice</span>
               <Plus className="w-[18px] h-[18px]" />
             </Button>
-            <ArrowRight className="w-[23px] h-[15px] text-[#afafaf]" />
+            <button >
+              <ArrowRight className="size-7 text-[#afafaf]" />
+            </button>
           </div>
-
+          
           <div className="relative w-full">
             <Input
-              className="h-[53px] bg-[#55575ee6] border-none rounded-[100px] px-6 text-[#afafaf] placeholder:text-[#afafaf]"
+              className="h-[53px] bg-[#55575ee6] border-none rounded-3xl px-6 text-[#afafaf] placeholder:text-[#afafaf]"
               placeholder="Search"
             />
             <Search className="absolute right-6 top-1/2 transform -translate-y-1/2 w-4 h-4 text-[#959595]" />

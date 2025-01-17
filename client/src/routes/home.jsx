@@ -1,73 +1,90 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import {
-  AlignLeft,
   Bell,
-  LineChart,
   Menu,
   Paperclip,
   Send,
-  Sparkles,
-  User,
+  LucideUserCircle2,
 } from "lucide-react";
-import React from "react";
 
-const navigationItems = [
-  { icon: <Sparkles className="h-8 w-8" />, label: "Generate" },
-  { icon: <LineChart className="h-8 w-8" />, label: "Visuals" },
-];
+import Footer_Navigator from '@/components/layout/nav'
+import AI_MIC from "@/assets/mic";
+
+import { useState } from "react";
+import History from "@/components/features/history";
 
 export default function Home() {
+  const [menu, setMenu] = useState(false);
+  const [textContent, setTextContent] = useState({
+    text: "",
+    textLength: "",
+  });
+
   return (
-    <div className="bg-white flex flex-row justify-center w-full">
-      <div className="bg-gradient-to-b from-[#F4BE37] via-white to-[#4690FF] w-[402px] h-[874px] relative">
-        <header className="flex items-center justify-between px-8 pt-6">
-          <div className="flex items-center gap-3">
-            <Menu className="h-5 w-5 text-gray-600" />
-            <span className="font-extrabold text-lg text-gray-600 tracking-tight">
-              Menu
-            </span>
-          </div>
+    <div className="relative gradient-custom h-screen w-full overflow-hidden">
+      <header className="flex items-center justify-between mx-4 mt-6">
+        <button
+          onClick={()=> setMenu(true)} 
+          className="flex items-center gap-3 py-1 px-3 hover:bg-white rounded-3xl"
+        >
+          <Menu className="h-5 w-5 text-neutral-600" />
+          <span className="font-bold text-lg text-neutral-600 tracking-tight">
+            Menu
+          </span>
+        </button>
 
-          <div className="flex items-center gap-4">
-            <Button variant="ghost" size="icon">
-              <Bell className="h-6 w-6 text-gray-600" />
-            </Button>
-            <Button variant="ghost" size="icon">
-              <User className="h-6 w-6 text-gray-600" />
-            </Button>
+        <div className="flex items-center mx-2 gap-5 pr-2 *:p-1 *:rounded-full">
+          <div className="hover:bg-white text-center">
+            <Bell className="text-neutral-600" />
           </div>
-        </header>
-
-        <div className="absolute w-[363px] h-[75px] top-[324px] left-[39px]">
-          <h1 className="font-normal text-3xl text-[#383838] tracking-tight">
-            Harness the Power of Data with
-            <span className="block text-[35px] font-medium bg-gradient-to-b from-[#F4BE37] to-[#3F55FF] bg-clip-text text-transparent text-center mt-2">
-              GABAY
-            </span>
-          </h1>
+          <div className="hover:bg-white text-center">
+            <LucideUserCircle2 className="text-neutral-600" />
+          </div>
         </div>
+      </header>
 
-        <Card className="absolute w-[348px] left-[27px] top-[431px]">
-          <CardContent className="p-3">
+      <main className="flex flex-col gap-7 justify-center items-start mx-7 h-full pb-32">
+        <h1 className="font-normal text-4xl text-[#383838] tracking-tighter font-montserrat mx-2">
+          Harness the Power
+          <br /> of Data with
+          <span
+            className="font-jost text-4xl font-semibold bg-gradient-to-l tracking-tighter
+                from-[#F4BE37] to-[#3F55FF] bg-clip-text text-transparent text-center mt-2"
+          >
+            &nbsp;GABAY
+          </span>
+        </h1>
+
+        <Card className="*:bg-white w-full rounded-2xl bg-white shadow-lg">
+          <CardContent className="p-3 rounded-2xl">
             <div className="flex flex-col gap-4">
-              <Input
+              <Textarea
                 placeholder="Write here"
-                className="font-medium text-gray-600"
+                className="font-medium text-neutral-600 tracking-tight rounded-xl"
+                rows="1"
               />
               <div className="flex items-center justify-between">
                 <div className="flex gap-3.5">
-                  <Button variant="ghost" size="icon" className="h-10 w-10">
-                    <Paperclip className="h-6 w-6" />
+                  <Button
+                    size="icon"
+                    className="size-10 rounded-full bg-stone-200 *:text-stone-700
+                        hover:bg-stone-300"
+                  >
+                    <Paperclip />
                   </Button>
-                  <Button variant="ghost" size="icon" className="h-10 w-10">
-                    <AlignLeft className="h-6 w-6" />
+                  <Button
+                    size="icon"
+                    className="size-10 rounded-full bg-stone-200 *:text-stone-700
+                        hover:bg-stone-300"
+                  >
+                    <AI_MIC />
                   </Button>
                 </div>
                 <Button
                   size="icon"
-                  className="h-10 w-10 bg-[#1774FF] hover:bg-[#1774FF]/90"
+                  className="size-10 rounded-full bg-[#1774FF] hover:bg-[#1774FF]/90"
                 >
                   <Send className="h-6 w-6 text-white" />
                 </Button>
@@ -75,21 +92,10 @@ export default function Home() {
             </div>
           </CardContent>
         </Card>
+      </main>
 
-        <nav className="absolute bottom-0 w-full h-[75px] bg-white border-t border-[#DFDFDF]">
-          <div className="relative h-full ml-10">
-            <div className="absolute h-[74px] w-[171px] bg-[#DFDFDF] rounded-t-[30px]" />
-            <div className="flex items-end gap-12 absolute top-3 left-[59px]">
-              {navigationItems.map((item, index) => (
-                <div key={index} className="flex flex-col items-center gap-1">
-                  {item.icon}
-                  <span className="text-xs tracking-tight">{item.label}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </nav>
-      </div>
+      {menu ? <History/> : ''}
+      <Footer_Navigator page="home"/>
     </div>
   );
 }

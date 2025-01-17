@@ -1,5 +1,5 @@
 import React from "react";
-import { UserInputProvider } from "@/contexts/UserInputContext"; 
+import { UserInputProvider } from "@/contexts/useUserContext"; 
 import AiChat from "@/components/features/aiChat"; 
 
 function Dashboard() {

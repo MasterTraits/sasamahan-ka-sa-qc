@@ -1,10 +1,9 @@
-import React, { useState, useContext } from "react";
+import { useState } from "react";
 import { BsPaperclip, BsSendArrowDown } from "react-icons/bs";
-
-import { UserInputContext } from "@/contexts/UserInputContext"; 
+import { useUserContext } from "@/contexts/useUserContext";
 
 export default function Footer() {
-  const { setUserInput } = useContext(UserInputContext); 
+  const { setUserInput } = useUserContext(); 
   const [inputValue, setInputValue] = useState(""); 
 
   // Handle input submission
