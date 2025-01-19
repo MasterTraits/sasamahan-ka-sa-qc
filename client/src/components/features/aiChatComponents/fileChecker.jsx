@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Paperclip } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 
-
 export default function FileChecker() {
   const [file, setFile] = useState(null);
   const [error, setError] = useState(null);
