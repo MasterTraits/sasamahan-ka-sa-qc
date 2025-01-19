@@ -11,3 +11,4 @@ python-multipart
 logging
 pydantic
 typing
+PyPDF2
