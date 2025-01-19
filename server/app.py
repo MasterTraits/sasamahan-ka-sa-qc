@@ -75,23 +75,32 @@ class ChatRequest(BaseModel):
 @app.post("/api/chat")
 async def chat(request: ChatRequest):
     try:
-        # Access the uploaded file content (if available)
-        relContext = ""
-        if pdf_storage.currentText:
-            relContext += "\n".join(pdf_storage.chunks)
-        if csv_storage.currentText:
-            relContext += "\n".join(csv_storage.chunks)
-
-        # Include file content only if available
-        if relContext:
-            context = f"Using this document content as reference:\n\n{relContext}\n\nUser Question: {request.message}"
-        else:
-            context = request.message  # Use only the user message if no files
-
-        response = GABAYAI(context)
+        # Check if any documents are uploaded
+        if not (pdf_storage.currentText or csv_storage.currentText):
+            return {"message": "Please upload a PDF or CSV file first."}
+        
+        logger.debug(f"Received chat request: {request.message}")
+        
+        # Combine relevant chunks from both PDF and CSV
+        relevant_chunks = []
+        if pdf_storage.chunks:
+            relevant_chunks.extend(pdf_storage.chunks[:3])
+        if csv_storage.chunks:
+            relevant_chunks.extend(csv_storage.chunks[:3])
+            
+        # Create focused context from relevant chunks
+        relContext = "\n".join(relevant_chunks)
+        
+        # Build prompt with focused context
+        context = f"Using this document content as reference:\n\n{relContext}\n\nUser Question: {request.message}"
+        
+        logger.debug(f"Context length: {len(context)}")
+        response = GABAYAI(request.message, context = relContext)
+        
         return {"message": response}
+        
     except Exception as e:
-        logger.error(f"Error in chat-with-context endpoint: {str(e)}", exc_info=True)
+        logger.error(f"Error in chat endpoint: {str(e)}", exc_info=True)
         raise HTTPException(status_code=500, detail=str(e))
 
 
