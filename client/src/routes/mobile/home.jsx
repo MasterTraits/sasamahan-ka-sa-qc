@@ -10,7 +10,6 @@ import {
 // Project Components
 import Footer_Navigator from "@/components/layout/nav";
 import Header from "@/components/layout/header";
-// import InputArea from "@/components/layout/textarea";
 import AI_MIC from "@/assets/mic";
 import ChatSession from "@/components/layout/home/chat-session";
 
@@ -18,6 +17,7 @@ import ChatSession from "@/components/layout/home/chat-session";
 import History from "@/components/features/history";
 import { useState } from "react";
 import { useHistory } from "@/store/useHistory";
+import { UserInputProvider } from "@/contexts/useUserContext";
 
 export default function Home() {
   const menu = useHistory((state) => state.menu);
@@ -86,7 +86,9 @@ export default function Home() {
         </main>
       ) 
       : (
-        <ChatSession/>
+        <UserInputProvider>
+          <ChatSession/>
+        </UserInputProvider>
       )}
 
       {menu ? <History /> : ""}
