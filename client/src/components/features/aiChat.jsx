@@ -12,7 +12,7 @@ export default function AiChat() {
     aiResponse,
     setAiResponse,
     chatHistory,
-    setChatHistory,
+    setChatHistory,   
   } = useContext(UserInputContext);
 
   const fetchAIResponse = async () => {
@@ -35,7 +35,7 @@ export default function AiChat() {
   }, [userInput]);
 
   return (
-    <main className="h-screen w-[25%] shadow-xl flex flex-col p-4">
+    <main className="h-screen shadow-xl flex flex-col p-4">
       <Header />
       <section className="p-4 flex-grow h-auto overflow-y-auto">
         <h1>TITLE TEXT HERE</h1>
