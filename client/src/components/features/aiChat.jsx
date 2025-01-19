@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { UserInputContext } from "@/contexts/useUserContext";
 import Header from "./aiChatComponents/header";
-import Footer from "./aiChatComponents/footer";
+import Footer from "../layout/textarea";
 import UserChatBubble from "./aiChatComponents/userChatBubble";
 import runChat from "@/config/gemini";
 import AiChatBubble from "./aiChatComponents/aiChatBubble";
