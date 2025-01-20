@@ -1,7 +1,7 @@
 import React from "react";
 import { UserInputProvider } from "@/contexts/useUserContext"; 
 import AiChat from "@/components/features/aiChat"; 
-
+import Desktop from "@/components/features/desktopComponents/desktopView"; 
 function Dashboard() {
   return (
     <>
@@ -10,8 +10,8 @@ function Dashboard() {
       <AiChat />     
     </UserInputProvider>
 
-    <section>
-      <h1>Dashboard</h1>
+    <section className="h-screen flex-grow">
+      <Desktop />
     </section>
     </main>
     </>
