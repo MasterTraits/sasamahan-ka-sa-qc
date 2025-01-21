@@ -1,10 +1,12 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { UserInputContext } from "@/contexts/useUserContext";
 import Header from "./aiChatComponents/header";
 import Footer from "../layout/textarea";
 import UserChatBubble from "./aiChatComponents/userChatBubble";
-import runChat from "@/config/gemini";
 import AiChatBubble from "./aiChatComponents/aiChatBubble";
+import runChat from "@/config/gemini";
+import { dotStream } from 'ldrs';
+dotStream.register();
 
 export default function AiChat() {
   const {
@@ -12,21 +14,41 @@ export default function AiChat() {
     aiResponse,
     setAiResponse,
     chatHistory,
-    setChatHistory,   
+    setChatHistory,
   } = useContext(UserInputContext);
 
+  const [loadingMessageId, setLoadingMessageId] = useState(null);
+
   const fetchAIResponse = async () => {
-    if (userInput) {
+    if (!userInput) return;
+    const messageId = Date.now().toString();
+    setChatHistory(prevHistory => [
+      ...prevHistory,
+      { id: messageId, user: userInput, ai: null }
+    ]);
+    
+    setLoadingMessageId(messageId);
+
+    try {
       const response = await runChat(userInput);
-
-      // Update AI response
+      setChatHistory(prevHistory =>
+        prevHistory.map(chat =>
+          chat.id === messageId
+            ? { ...chat, ai: response }
+            : chat
+        )
+      );
       setAiResponse(response);
-
-      // Add to chat history
-      setChatHistory((prevHistory) => [
-        ...prevHistory,
-        { user: userInput, ai: response },
-      ]);
+    } catch (error) {
+      setChatHistory(prevHistory =>
+        prevHistory.map(chat =>
+          chat.id === messageId
+            ? { ...chat, ai: "Sorry, there was an error generating the response." }
+            : chat
+        )
+      );
+    } finally {
+      setLoadingMessageId(null);
     }
   };
 
@@ -38,13 +60,21 @@ export default function AiChat() {
     <main className="h-screen shadow-xl flex flex-col p-4">
       <Header />
       <section className="p-4 flex-grow h-auto overflow-y-auto">
-        <h1>TITLE TEXT HERE</h1>
-
-        {/* Render chat history */}
-        {chatHistory.map((chat, index) => (
-          <div key={index}>
+        <h1>AI Chat Interface</h1>
+        {chatHistory.map((chat) => (
+          <div key={chat.id} className="space-y-4 mb-6">
             <UserChatBubble message={chat.user} />
-            <AiChatBubble message={chat.ai} />
+            {chat.id === loadingMessageId ? (
+              <div className="flex justify-start p-4">
+                <l-dot-stream
+                  size="60"
+                  speed="2.5"
+                  color="black"
+                ></l-dot-stream>
+              </div>
+            ) : (
+              chat.ai && <AiChatBubble message={chat.ai} />
+            )}
           </div>
         ))}
       </section>
