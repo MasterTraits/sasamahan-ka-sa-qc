@@ -6,7 +6,7 @@ import { Separator } from "@/components/ui/separator";
 import { ArrowRight, Plus, Search } from "lucide-react";
 
 import api from "@/config/axios";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { useHistory } from "@/store/useHistory";
 import { Link } from 'react-router-dom'
 
@@ -93,9 +93,6 @@ export default function History() {
                   </Button>
                 ))}
               </div>
-            ))} */}
-          {/* {history.map(({ id, title, messages = [] }, index) => (
-              
             ))} */}
         </ScrollArea>
       </CardContent>

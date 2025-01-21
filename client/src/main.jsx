@@ -19,6 +19,7 @@ const router = createBrowserRouter(
     <Route>
       <Route index element={<Redirect />} />
       <Route path="/home" element={<Home />} />
+      <Route path="/home/:id" element={<Home/>}/>
       <Route path="/view" element={<View />} />
       <Route path="/desktop" element={<Dashboard />} />
       <Route path="/test" element={<Test/>}/>
