@@ -11,6 +11,7 @@ import './index.css'
 import Dashboard from './routes/desktop/dashboard';
 import Home from './routes/mobile/home';
 import View from './routes/mobile/view';
+import Test from './routes/test';
 
 const router = createBrowserRouter(
   createRoutesFromChildren(
@@ -19,6 +20,7 @@ const router = createBrowserRouter(
       <Route path="home" element={<Home />} />
       <Route path="/view" element={<View />} />
       <Route path="/desktop" element={<Dashboard />} />
+      <Route path="/test" element={<Test/>}/>
     </Route>
   )
 );

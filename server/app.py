@@ -75,93 +75,62 @@ class ChatRequest(BaseModel):
 @app.post("/api/chat")
 async def chat(request: ChatRequest):
     try:
-        if not pdf_storage.currentText or not csv_storage.currentText:
-            raise HTTPException(status_code=400, detail="Please upload a PDF and CSV file first.")
+        # Check if any documents are uploaded
+        if not (pdf_storage.currentText or csv_storage.currentText):
+            return {"message": "Please upload a PDF or CSV file first."}
         
-        relContext = "\n".join(pdf_storage.chunks + csv_storage.chunks)
+        logger.debug(f"Received chat request: {request.message}")
+        
+        # Combine relevant chunks from both PDF and CSV
+        relevant_chunks = []
+        if pdf_storage.chunks:
+            relevant_chunks.extend(pdf_storage.chunks[:3])
+        if csv_storage.chunks:
+            relevant_chunks.extend(csv_storage.chunks[:3])
+            
+        # Create focused context from relevant chunks
+        relContext = "\n".join(relevant_chunks)
+        
+        # Build prompt with focused context
         context = f"Using this document content as reference:\n\n{relContext}\n\nUser Question: {request.message}"
-
-        response = GABAYAI(context)
+        
+        logger.debug(f"Context length: {len(context)}")
+        response = GABAYAI(request.message, context = relContext)
+        
         return {"message": response}
+        
     except Exception as e:
-        logger.error(f"Error in chat-with-context endpoint: {str(e)}", exc_info=True)
+        logger.error(f"Error in chat endpoint: {str(e)}", exc_info=True)
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.post("/api/upload-pdf")
-async def upload_pdf(file: UploadFile = File(...)):
-    if file.content_type.startswith('application/pdf'):
-        pdf_content = await file.read()
-        try:
-            pdf_reader = PDFReader(pdf_content)
+
+@app.post("/api/upload") 
+async def upload_file(file: UploadFile = File(...)):
+    try:
+        contents = await file.read()
+        if file.filename.endswith(".pdf"):
+            pdf_reader = PDFReader(contents)
             pdf_storage.currentText = pdf_reader.extract_text()
             pdf_storage.chunks = split_text_into_chunks(pdf_storage.currentText)
-
             for i, chunk in enumerate(pdf_storage.chunks):
                 vector_storage.store_vector(chunk)
                 logger.debug(f"Stored vector for chunk {i+1}/{len(pdf_storage.chunks)}")
-
-            return JSONResponse({"message": "PDF uploaded and processed successfully"})
-        except Exception as e:
-            raise HTTPException(status_code=500, detail=f"Error processing PDF: {e}")
-    else:
-        raise HTTPException(status_code=400, detail="Invalid file type. Please upload a PDF.")
-
-@app.post("/api/upload-csv")
-async def upload_csv(file: UploadFile = File(...)):
-    if file.content_type.startswith('text/csv'):
-        csv_content = await file.read()
-        try:
-            csv_reader = CSVReader(csv_content)
+        elif file.filename.endswith(".csv"):
+            csv_reader = CSVReader(contents)
             extracted_data = csv_reader.extract_text()
-            csv_storage.currentText = str(extracted_data)  # Convert list to string
+            csv_storage.currentText = str(extracted_data)
             csv_storage.chunks = split_text_into_chunks(csv_storage.currentText)
-
             for i, chunk in enumerate(csv_storage.chunks):
                 vector_storage.store_vector(chunk)
                 logger.debug(f"Stored vector for chunk {i+1}/{len(csv_storage.chunks)}")
+        else:
+            return JSONResponse({"message": "Invalid file type. Please upload a PDF or CSV."}, status_code=400)
+        
+        return JSONResponse({"message": "File uploaded and processed successfully!"}, status_code=200)
 
-            return JSONResponse({"message": "CSV uploaded and processed successfully"})
-        except Exception as e:
-            raise HTTPException(status_code=500, detail=f"Error processing CSV: {e}")
-    else:
-        raise HTTPException(status_code=400, detail="Invalid file type. Please upload a CSV.")
-
-
-
-@app.get("/api/search-pdf/{query}")
-async def search_pdf(query: str):
-    query_vector = transformer_model.encode([query])[0]
-    similarities = []
-
-    for i, chunk in enumerate(pdf_storage.chunks):
-        chunk_vector = vector_storage.get_vector(chunk)
-        similarity = cosine_similarity([query_vector], [chunk_vector])[0][0]
-        similarities.append((i, similarity))
-
-    similarities = sorted(similarities, key=lambda x: x[1], reverse=True)
-
-    top_results = []
-    for i, similarity in similarities[:3]:  # Return top 3 results
-        top_results.append({"chunk": pdf_storage.chunks[i], "similarity": similarity})
-    
-    return JSONResponse({"results": top_results})
+    except Exception as e:
+        logger.error(f"Error uploading or processing file: {str(e)}", exc_info=True)
+        return JSONResponse({"message": f"An error occurred: {str(e)}"}, status_code=500)
 
 
-@app.get("/api/search-csv/{query}")
-async def search_csv(query: str):
-    query_vector = transformer_model.encode([query])[0]
-    similarities = []
-
-    for i, chunk in enumerate(csv_storage.chunks):
-        chunk_vector = vector_storage.get_vector(chunk)
-        similarity = cosine_similarity([query_vector], [chunk_vector])[0][0]
-        similarities.append((i, similarity))
-
-    similarities = sorted(similarities, key=lambda x: x[1], reverse=True)
-
-    top_results = []
-    for i, similarity in similarities[:3]:  # Return top 3 results
-        top_results.append({"chunk": csv_storage.chunks[i], "similarity": similarity})
-    
-    return JSONResponse({"results": top_results})
 

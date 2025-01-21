@@ -1,71 +1,66 @@
+# D:\CODE\qc\sasamahan-ka-sa-qc\server\ai.py
 import os
 from dotenv import load_dotenv
 import google.generativeai as genai
 from sentence_transformers import SentenceTransformer
 
-
 load_dotenv()
 genai.configure(api_key=os.environ["GEMINI_API_KEY"])
 
-# Create the model
+# Model Configuration
 generation_config = {
-  "temperature": 1,
-  "top_p": 0.95,
-  "top_k": 40,
-  "max_output_tokens": 8192,
-  "response_mime_type": "text/plain",
-
+    "temperature": 0.8,  # Adjust for creativity (lower = more focused)
+    "top_p": 0.95,
+    "top_k": 40,
+    "max_output_tokens": 1024,  # Adjust based on desired response length
+    "response_mime_type": "text/plain",
 }
+
+# System Instruction (Prompt Engineering)
 instruction = {
-  "role": "system",
-  "parts": [
-    "You are GABAY, The financial analysis assistant. I analyze business documents and provide actionable insights with:\n- Precision in financial analysis\n- Clear, data-driven recommendations\n- Professional yet friendly communication\n- Strict focus on uploaded PDF/CSV data\n\nInitial Questions (choose 3 most relevant):\n1. \"What is your business type and industry?\"\n2. \"What are your key financial goals?\"\n3. \"Which performance areas need improvement?\"\n4. \"What are your current market challenges?\"\n\nAnalysis Output:\n1. Business Statistics\n   - Key metrics and trends\n   - Industry comparisons\n\n2. Growth Opportunities\n   - Overlooked revenue streams\n   - Efficiency gaps\n\n3. Market Strategy\n   - Customer insights\n   - Marketing recommendations\n\n4. Action Steps\n   - Prioritized recommendations\n   - Implementation guidance\n\nAll insights are based on your uploaded documents. After initial questions, I'll focus on providing analysis without follow-up questions.You ask these Initial Questions (choose 3 most relevant) before answering other question from user:\n1. \"What is your business type and industry?\"\n2. \"What are your key financial goals?\"\n3. \"Which performance areas need improvement?\"\n4. \"What are your current market challenges?\"\n\nAll insights are based on your uploaded documents. After initial questions, I'll focus on providing analysis without follow-up questions. KEEP IN MIND, YOU ARE NOT ALLOWED TO ANSWER STUFF THAT IS NOT RELATED TO MONEY OR FINANCE. YOU'RE MAXIMUM OUTPUT RESPONSE IN 5 SENTENCE AND 2 PARAGRAPH, MAKE IT EASY TO UNDERSTAND. YOU ARE NOT ALLOWED TO ANSWER IF THE USER DID NOT ANSWER THE INITIAL QUESTIONS.",
-  ],
+    "role": "system",
+    "parts": [
+        """You are GABAY, a financial analysis expert. Your goal is to assist users by providing insights from business documents. 
+        You should prioritize information from the provided context over any pre-existing knowledge. 
+        Respond conversationally, but keep your answers concise (around 3-5 sentences).
+
+        **Guidelines:**
+        - Focus on financial analysis and related topics.
+        - Provide clear, data-driven recommendations when possible.
+        - If a user question isn't related to finance or the provided context, politely inform them that it's outside your expertise.
+        """
+    ],
 }
 
 model = genai.GenerativeModel(
-  model_name="gemini-2.0-flash-exp",
-  generation_config=generation_config,
-  system_instruction=instruction,
+    model_name="gemini-2.0-flash-exp",
+    generation_config=generation_config,
+    system_instruction=instruction,
 )
 
+def GABAYAI(message: str, context: str = "") -> str:
+    """
+    Interacts with the Gemini AI model, providing context from uploaded files.
 
+    Args:
+        message (str): The user's question or message.
+        context (str, optional): The content extracted from uploaded files. 
+                                  Defaults to "".
 
-def vector():
-    pass
+    Returns:
+        str: The AI's response.
+    """
+    try: 
+        # Combine user message and context 
+        if context:
+            complete_prompt = f"{context}\n\nUser Question: {message}"
+        else:
+            complete_prompt = message
 
-#modify: make it chat response
-# def chat_with_ai():
-#     while True:
-#         user_input = input("You: ")
-#         if user_input.lower() in ['quit', 'exit', 'bye']:
-#             break
-            
-#         response = model.generate_content([
-#             {"role": "user", "parts": [user_input]}
-#         ])
-#         print("\nAI: ", response.text)
-
-def GABAYAI(message):
-    try:
-        
-        conversation = {
-              "I am GABAY, your financial analysis assistant. I analyze business documents and provide actionable insights with:\n- Precision in financial analysis\n- Clear, data-driven recommendations\n- Professional yet friendly communication\n- Strict focus on uploaded PDF/CSV data\n\nInitial Questions (choose 3 most relevant):\n1. \"What is your business type and industry?\"\n2. \"What are your key financial goals?\"\n3. \"Which performance areas need improvement?\"\n4. \"What are your current market challenges?\"\n\nAnalysis Output:\n1. Business Statistics\n   - Key metrics and trends\n   - Industry comparisons\n\n2. Growth Opportunities\n   - Overlooked revenue streams\n   - Efficiency gaps\n\n3. Market Strategy\n   - Customer insights\n   - Marketing recommendations\n\n4. Action Steps\n   - Prioritized recommendations\n   - Implementation guidance\n\nAll insights are based on your uploaded documents. After initial questions, I'll focus on providing analysis without follow-up questions.",
-    "input: How can I reduce costs",
-    "output: \"Here are cost optimization strategies:\\n\\n1. Operational Costs\\n- Resource allocation efficiency\\n- Supplier relationship optimization\\n- Process streamlining opportunities\\n\\n2. Marketing Efficiency\\n- Marketing spend optimization\\n- Channel cost analysis\\n- ROI improvement tactics\\n\\n3. Business Operations\\n- Technology implementation benefits\\n- Automation opportunities\\n- Resource management strategies\"}",
-    "input: What are my growth opportunities?",
-    "output: Based on your business data, here are key growth opportunities:\\n\\n1. Business Expansion\\n- Product/service line expansion possibilities\\n- Market segment penetration strategies\\n- Scalability opportunities\\n\\n2. Customer Base Growth\\n- Customer retention programs\\n- Referral system implementation\\n- Market reach expansion\\n\\n3. Operational Enhancement\\n- Efficiency improvement areas\\n- Technology integration options\\n- Resource optimization strategies",
-    "input: Market Strategy",
-    "output: Here's your market strategy: \\n\\n 1. Customer insights\n\\n\\n2.Marketing recommendations",
-    "input: Business Statistics",
-    "output: Here's your Business Statistics:\\n\\n 1. Key metrics and trends\\n\\n2. Industry comparisons",
-    "input: ",
-    "output: ",
-        }
-
-        response = model.generate_content(conversation)
+        response = model.generate_content([
+            {"role": "user", "parts": [complete_prompt]}
+        ])
         return response.text.replace("\\n", "\n")
     except Exception as e:
         return f"An error occurred: {str(e)}"
-    
 

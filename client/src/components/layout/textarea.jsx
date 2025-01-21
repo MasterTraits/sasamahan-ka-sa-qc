@@ -3,11 +3,11 @@ import { useUserContext } from "@/contexts/useUserContext";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
-import FileChecker from "./fileChecker";
-import { Paperclip, Send } from "lucide-react";
+import FileChecker from "../features/aiChatComponents/fileChecker";
+import { Send } from "lucide-react";
 import AI_MIC from "@/assets/mic";
 
-export default function Footer() {
+export default function TextArea({extraClass}) {
   const { setUserInput } = useUserContext();
   const [inputValue, setInputValue] = useState(""); 
   
@@ -24,7 +24,7 @@ export default function Footer() {
   };
 
   return (
-    <Card className="*:bg-white w-full rounded-2xl bg-white shadow-lg z-10">
+    <Card className={`${extraClass}*:bg-white w-full rounded-2xl bg-white border border-neutral-150 shadow-lg z-10`}>
       <CardContent className="p-3 rounded-2xl">
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <Textarea

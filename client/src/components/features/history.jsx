@@ -29,7 +29,7 @@ export default function History() {
   const closeMenu = useHistory((state)=> state.closeMenu)
 
   return (
-    <Card className="absolute left-0 top-0 w-80 h-full bg-stone-700 border-none rounded-none backdrop-blur z-50">
+    <Card className="absolute left-0 top-0 w-80 h-full bg-stone-700 border-none rounded-none backdrop-blur opacity-95 z-50">
       <CardContent className="flex flex-col gap-8 p-[18px] pt-8">
         <div className="flex flex-col gap-[15px]">
           <div className="flex items-center gap-[31px]">
