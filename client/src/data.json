@@ -1,23 +1,42 @@
 {
   "history": [
     {
-     "id": "1",
-     "title": "sample",
-     "started": "2025-01-01",
-     "messages": [
-      {
-        "id": 1,
-        "message": "to fix"
-      },
-      {
-        "id": 2,
-        "message": "to fix"
-      }
-     ] 
+      "id": "1",
+      "messages": [
+        {
+          "user": "Please",
+          "ai": "An error occurred. Please try again later."
+        }
+      ]
     },
     {
       "id": "2",
-      "title": "example"
+      "title": "example",
+      "messages": [
+        {
+          "user": "Fucking error",
+          "ai": "An error occurred. Please try again later."
+        },
+        {
+          "user": "UMAYYY",
+          "ai": "An error occurred. Please try again later."
+        },
+        {
+          "user": "broo please",
+          "ai": "An error occurred. Please try again later."
+        },
+        {
+          "user": "really losing my mind",
+          "ai": "An error occurred. Please try again later."
+        },
+        {
+          "user": "nothing works?",
+          "ai": "An error occurred. Please try again later."
+        }
+      ]
+    },
+    {
+      "id": "4f6c"
     }
   ]
 }

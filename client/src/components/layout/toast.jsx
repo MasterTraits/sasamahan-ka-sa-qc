@@ -4,7 +4,7 @@ export default function toast({ success }) {
   return (
     <aside 
       className={`${success ? `bg-[#1774FF]` : `bg-red-500` } absolute top-3 w-[calc(100%-30px)] flex 
-      items-center justify-between rounded-2xl text-white  opacity-85 backdrop-blur-sm px-5 py-3`}
+      items-center justify-between rounded-2xl text-white  opacity-85 backdrop-blur-sm px-5 py-3 z-50`}
     >
       <div className="flex items-center gap-4">
         {success ? 
