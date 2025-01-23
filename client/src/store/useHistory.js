@@ -9,5 +9,6 @@ export const useHistory = create((set) => ({
   addHistory: (title, messages) => set((state) => ({
     history: [...state.history, { title, messages }]
   })),
-  clearHistory: () => set({ history: [] })
+  clearHistory: () => set({ history: [] }),
+
 }));

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Card, CardTitle, CardContent } from '@/components/ui/card';
-import LineGraph from '@/graphs/linegraph';
+import LineGraph from '@/components/features/graphs/linegraph';
 export default function DashboardContent() {
   return (
 

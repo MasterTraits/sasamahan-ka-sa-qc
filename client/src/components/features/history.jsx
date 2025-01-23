@@ -5,43 +5,56 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { ArrowRight, Plus, Search } from "lucide-react";
 
+// Loading animation
+import { jellyTriangle } from "ldrs"; jellyTriangle.register();
+
 import api from "@/config/axios";
 import { useState, useEffect } from "react";
 import { useHistory } from "@/store/useHistory";
-import { Link } from 'react-router-dom'
+import { Link } from "react-router-dom";
 
 export default function History() {
   const [history, setHistory] = useState([]);
   const [searchData, setData] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const historyData = async () => {
+  const fetchHistoryData = async () => {
+    setLoading(true);
     try {
       const response = await api.get("/history");
       setHistory(response.data);
     } catch (err) {
       console.error(err);
+    } finally {
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000);
     }
   };
 
   useEffect(() => {
-    historyData();
-    () => console.log(history);
-  });
+    fetchHistoryData();
+  }, []);
 
   const closeMenu = useHistory((state) => state.closeMenu);
 
   return (
-    <Card className="absolute left-0 top-0 w-80 h-full bg-stone-700 border-none rounded-none backdrop-blur opacity-95 z-50">
+    <Card className="absolute left-0 top-0 w-80 h-full backdrop-blur bg-neutral-800 border-none rounded-none opacity-90 z-50">
       <CardContent className="flex flex-col gap-8 p-[18px] pt-8">
         <div className="flex flex-col gap-[15px]">
           <div className="flex items-center gap-[31px]">
-            <Button
-              variant="ghost"
-              className="flex items-center gap-2 w-[217px] h-[53px] bg-[#33363f] rounded-3xl text-[#afafaf]"
+            <Link
+              reloadDocument
+              to="/home"
             >
-              <span className="font-semibold">New Advice</span>
-              <Plus className="w-[18px] h-[18px]" />
-            </Button>
+              <Button
+                variant="ghost"
+                className="flex items-center gap-2 w-[217px] h-[53px] bg-[#33363f] rounded-3xl text-[#afafaf]"
+              >
+                <span className="font-semibold">New Advice</span>
+                <Plus className="w-[18px] h-[18px]" />
+              </Button>
+            </Link>
             <button onClick={closeMenu}>
               <ArrowRight className="size-7 text-[#afafaf]" />
             </button>
@@ -49,7 +62,7 @@ export default function History() {
 
           <div className="relative w-full">
             <Input
-              className="h-[53px] bg-[#55575ee6] border-none rounded-3xl px-6 text-[#afafaf] placeholder:text-[#afafaf]"
+              className="h-[53px] bg-[#55575ee6] border-none rounded-3xl px-6 text-[#afafaf] placeholder:text-[#afafaf] placeholder:font-semibold"
               placeholder="Search"
               value={searchData}
               onChange={(e) => setData(e.target.value)}
@@ -59,41 +72,36 @@ export default function History() {
         </div>
 
         <ScrollArea className="flex-1">
-          <div className="flex flex-col gap-5">
-            <Separator className="bg-[#959595] h-[3px] opacity-20" />
-            <div className="text-xs font-semibold text-[#959595] tracking-[-0.24px]">
-              Previous 7 days
+          <Separator className="mb-5 bg-[#959595] h-[3px] opacity-20" />
+          {loading ? (
+            <div className="w-full h-[55vh] flex justify-center items-center">
+              <l-jelly-triangle
+                size="40"
+                speed="2"
+                color="white"
+              ></l-jelly-triangle>
             </div>
-            <Link
-              to="/:id"
-            >
-              <Button
-                variant="ghost"
-                className="w-full justify-start p-0 h-auto font-medium text-base text-[#959595] tracking-[-0.32px] hover:bg-transparent hover:text-white"
-              >
-                Example
-              </Button>
-            </Link>
-          </div>
-          {/* {history.map(({ id, title, messages = [] }, index) => (
-              <div key={id} className="flex flex-col gap-5">
-                {index > 0 && (
-                  <Separator className="bg-[#959595] h-[3px] opacity-20" />
-                )}
-                <div className="text-xs font-semibold text-[#959595] tracking-[-0.24px]">
-                  {title}
-                </div>
-                {messages.map(({ id, message }) => (
+          ) : (
+            <div className="flex flex-col gap-4">
+              <div className="text-xs font-semibold text-[#959595] tracking-[-0.24px]">
+                Previous 7 days
+              </div>
+              {history.map((session) => (
+                <Link
+                  reloadDocument
+                  key={session.id}
+                  to={`/home/${session.id}`}
+                >
                   <Button
-                    key={id}
                     variant="ghost"
                     className="w-full justify-start p-0 h-auto font-medium text-base text-[#959595] tracking-[-0.32px] hover:bg-transparent hover:text-white"
                   >
-                    {message}
+                    {session.title || "No Title"}
                   </Button>
-                ))}
-              </div>
-            ))} */}
+                </Link>
+              ))}
+            </div>
+          )}
         </ScrollArea>
       </CardContent>
     </Card>
