@@ -7,7 +7,7 @@ import { useTypingAnimation } from './useTypingAnim';
 
 export default function AiChatBubble({ message }) {
   const { userInput, setAiResponse } = useContext(UserInputContext);
-  const displayedText = useTypingAnimation(message, 50);
+  const displayedText = useTypingAnimation(message, 25);
 
   const handleCopy = () => {
     if (message) {
