@@ -1,7 +1,7 @@
 import React from "react";
 import { UserInputProvider } from "@/contexts/useUserContext";
 import AiChat from "@/components/features/aiChat";
-
+import GraphGenerator from "@/components/features/aiChatComponents/graph";
 import {
   ResizableHandle,
   ResizablePanel,
@@ -26,7 +26,10 @@ function Dashboard() {
             <section>
               <h1>Dashboard</h1>
             </section>
-
+            <section className="h-full w-full p-4">
+              <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
+              <GraphGenerator />
+            </section>
           </ResizablePanel>
         </ResizablePanelGroup>
       </main>
