@@ -13,7 +13,10 @@ function Dashboard() {
     <>
       <main className="h-screen w-screen relative">
         <ResizablePanelGroup direction="horizontal">
-          <ResizablePanel defaultSize={25}>
+          <ResizablePanel defaultSize={25}
+          minSize={20}
+          maxSize={35}
+          >
 
             <UserInputProvider>
               <AiChat />

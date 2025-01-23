@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { UserInputContext } from "@/contexts/useUserContext";
-import Header from "./aiChatComponents/header";
+import Header from "../layout/header";
 import Footer from "../layout/textarea";
 import UserChatBubble from "./aiChatComponents/userChatBubble";
 import AiChatBubble from "./aiChatComponents/aiChatBubble";
@@ -58,8 +58,9 @@ export default function AiChat() {
   }, [userInput]);
 
   return (
+    <>
     <main className="h-screen shadow-xl flex flex-col p-4">
-      <Header />
+      <Header text="AI Chat Interface" />
       <section className="p-4 flex-grow h-auto overflow-y-auto">
         <h1>AI Chat Interface</h1>
         {chatHistory.map((chat) => (
@@ -81,5 +82,6 @@ export default function AiChat() {
       </section>
       <Footer />
     </main>
+    </>
   );
 }
