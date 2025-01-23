@@ -2,6 +2,7 @@ import React from "react";
 import { UserInputProvider } from "@/contexts/useUserContext";
 import AiChat from "@/components/features/aiChat";
 import Desktop from "@/components/features/desktopComponents/desktopView";
+import GraphGenerator from "@/components/features/graphs/graph";
 import {
   ResizableHandle,
   ResizablePanel,
