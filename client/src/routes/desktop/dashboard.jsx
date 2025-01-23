@@ -14,22 +14,20 @@ function Dashboard() {
     <>
       <main className="h-screen w-screen relative">
         <ResizablePanelGroup direction="horizontal">
-          <ResizablePanel defaultSize={25}>
-
+          <ResizablePanel defaultSize={25}
+          minSize={20}
+          maxSize={35}
+          >
             <UserInputProvider>
               <AiChat />
             </UserInputProvider>
-            
+
+ 
           </ResizablePanel>
           <ResizableHandle withHandle />
           <ResizablePanel>
-
-            <section>
-              <h1>Dashboard</h1>
-              </section>
-            <section className="h-full w-full p-4">
-              <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
-              <GraphGenerator />
+            <section className="flex relative h-full w-full items-center justify-center">
+              <Desktop/>
             </section>
           </ResizablePanel>
         </ResizablePanelGroup>

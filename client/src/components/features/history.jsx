@@ -4,8 +4,6 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { ArrowRight, Plus, Search } from "lucide-react";
-
-// Loading animation
 import { jellyTriangle } from "ldrs"; jellyTriangle.register();
 
 import api from "@/config/axios";
