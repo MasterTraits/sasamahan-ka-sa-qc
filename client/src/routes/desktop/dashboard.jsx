@@ -17,16 +17,14 @@ function Dashboard() {
           minSize={20}
           maxSize={35}
           >
-
             <UserInputProvider>
               <AiChat />
             </UserInputProvider>
-            
+
+ 
           </ResizablePanel>
           <ResizableHandle withHandle />
           <ResizablePanel>
-
-
             <section className="flex relative h-full w-full items-center justify-center">
               <Desktop/>
             </section>
