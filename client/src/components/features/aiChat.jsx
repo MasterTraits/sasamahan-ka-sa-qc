@@ -6,6 +6,7 @@ import UserChatBubble from "./aiChatComponents/userChatBubble";
 import AiChatBubble from "./aiChatComponents/aiChatBubble";
 import runChat from "@/config/gemini";
 import { dotStream } from 'ldrs';
+import toast from "../layout/toast";
 dotStream.register();
 
 export default function AiChat() {

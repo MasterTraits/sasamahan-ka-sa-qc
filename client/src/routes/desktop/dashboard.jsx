@@ -24,7 +24,7 @@ function Dashboard() {
           <ResizablePanel>
 
 
-            <section className="flex relative h-full w-full">
+            <section className="flex relative h-full w-full items-center justify-center">
               <Desktop/>
             </section>
           </ResizablePanel>
