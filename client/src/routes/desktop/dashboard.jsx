@@ -2,6 +2,7 @@ import React from "react";
 import { UserInputProvider } from "@/contexts/useUserContext";
 import AiChat from "@/components/features/aiChat";
 import Desktop from "@/components/features/desktopComponents/desktopView";
+import GraphGenerator from "@/components/features/graphs/graph";
 import {
   ResizableHandle,
   ResizablePanel,
@@ -23,9 +24,12 @@ function Dashboard() {
           <ResizableHandle withHandle />
           <ResizablePanel>
 
-
-            <section className="flex relative h-full w-full">
-              <Desktop/>
+            <section>
+              <h1>Dashboard</h1>
+              </section>
+            <section className="h-full w-full p-4">
+              <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
+              <GraphGenerator />
             </section>
           </ResizablePanel>
         </ResizablePanelGroup>
