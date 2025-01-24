@@ -9,6 +9,11 @@ from vector import vectorize_conversation
 from filereader import PDFReader, split_text_into_chunks, CSVReader
 from sklearn.metrics.pairwise import cosine_similarity
 from ai import GABAYAI
+import nltk
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
+from nltk.probability import FreqDist
+from collections import OrderedDict
 
 
 # Load the model
@@ -19,12 +24,14 @@ logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
 logger = logging.getLogger(__name__)
+nltk.download('punkt')
+nltk.download('stopwords')
 
 app = FastAPI()
 
 # CORS
 origins = [
-    "http://localhost:5173", # Add your React app's port if different
+    "http://localhost:5173",
     "http://localhost:8000",
     "http://127.0.0.1:8000" 
 ]
@@ -68,6 +75,29 @@ csv_storage = CSVStorage()
 vector_storage = VectorStorage()
 transformer_model = SentenceTransformer('all-MiniLM-L6-v2')
 #CORS
+
+
+@app.post("/api/title")
+async def generate_title(request: Request):
+    try:
+        data = await request.json()
+        chat_history = data.get("chat_history", [])
+
+        title = generate_title_from_chat(chat_history)
+        return {"title": title}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error generating title: {e}")
+    
+def generate_title_from_chat(chat_history):
+    all_words = []
+    for message in chat_history:
+        words = word_tokenize(message["content"])
+        all_words.extend(word for word in words if word.isalnum() and word.lower() not in stopwords.words('english'))
+
+    word_frequencies = FreqDist(all_words)
+    most_frequent_words = list(OrderedDict.fromkeys(word_frequencies.most_common(5)))
+    title = " ".join([word[0] for word in most_frequent_words]).title()
+    return title
 
 class ChatRequest(BaseModel):
     message: str
