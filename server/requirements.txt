@@ -12,3 +12,4 @@ logging
 pydantic
 typing
 PyPDF2
+nltk
