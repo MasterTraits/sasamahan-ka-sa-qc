@@ -128,11 +128,11 @@ export default function GraphGenerator({ onClose, onSaveToDashboard, initialConf
 
   return (
     <main className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <section className="bg-white rounded-lg p-6 w-11/12 max-w-4xl">
+      <section className="bg-white rounded-lg p-4 sm:p-6 w-11/12 max-w-4xl mx-4 sm:mx-0">
         <header className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-bold">Create Graph</h2>
+          <h2 className="text-lg sm:text-xl font-bold">Create Graph</h2>
           <button onClick={onClose} className="text-red-500 hover:text-red-700">
-            <X size={24} />
+            <X size={20} />
           </button>
         </header>
 
@@ -146,7 +146,7 @@ export default function GraphGenerator({ onClose, onSaveToDashboard, initialConf
               type="file"
               onChange={handleFileUpload}
               accept=".csv"
-              className="border rounded-lg p-2"
+              className="border rounded-lg p-2 text-sm"
             />
           </fieldset>
 
@@ -158,7 +158,7 @@ export default function GraphGenerator({ onClose, onSaveToDashboard, initialConf
               id="graph-type"
               value={graphType}
               onChange={(e) => setGraphType(e.target.value)}
-              className="border rounded-lg p-2"
+              className="border rounded-lg p-2 text-sm"
             >
               <option value="line">Line Graph</option>
               <option value="bar">Bar Graph</option>
@@ -179,7 +179,7 @@ export default function GraphGenerator({ onClose, onSaveToDashboard, initialConf
               type="text"
               value={graphTitle}
               onChange={(e) => setGraphTitle(e.target.value)}
-              className="border rounded-lg p-2"
+              className="border rounded-lg p-2 text-sm"
               placeholder="Enter a title for the graph"
             />
           </fieldset>
@@ -194,7 +194,7 @@ export default function GraphGenerator({ onClose, onSaveToDashboard, initialConf
                   id="x-axis-column"
                   value={xAxisColumn}
                   onChange={(e) => setXAxisColumn(e.target.value)}
-                  className="border rounded-lg p-2"
+                  className="border rounded-lg p-2 text-sm"
                 >
                   {Object.keys(csvData[0]).map((column) => (
                     <option key={column} value={column}>
@@ -212,7 +212,7 @@ export default function GraphGenerator({ onClose, onSaveToDashboard, initialConf
                   id="y-axis-column"
                   value={yAxisColumn}
                   onChange={(e) => setYAxisColumn(e.target.value)}
-                  className="border rounded-lg p-2"
+                  className="border rounded-lg p-2 text-sm"
                 >
                   {Object.keys(csvData[0]).map((column) => (
                     <option key={column} value={column}>
@@ -222,7 +222,7 @@ export default function GraphGenerator({ onClose, onSaveToDashboard, initialConf
                 </select>
               </fieldset>
 
-              <figure className="h-96">
+              <figure className="h-64 sm:h-96">
                 {graphType === 'line' && <Line data={chartData} options={options} />}
                 {graphType === 'bar' && <Bar data={chartData} options={options} />}
                 {graphType === 'pie' && <Pie data={chartData} options={options} />}
@@ -237,9 +237,9 @@ export default function GraphGenerator({ onClose, onSaveToDashboard, initialConf
             <button
               type="button"
               onClick={handleSaveToDashboard}
-              className="ring-1 ring-blue text-black px-4 py-2 rounded-lg hover:bg-blue-600 flex items-center space-x-2"
+              className="ring-1 ring-blue text-black px-4 py-2 rounded-lg hover:bg-blue-600 flex items-center space-x-2 text-sm sm:text-base"
             >
-              <Save size={20} />
+              <Save size={16} />
               <span>Save Graph</span>
             </button>
           </footer>
