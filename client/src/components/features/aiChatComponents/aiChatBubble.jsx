@@ -8,7 +8,14 @@ import Markdown from "react-markdown";
 
 export default function AiChatBubble({ message }) {
   const { userInput, setAiResponse } = useContext(UserInputContext);
-  const displayedText = useTypingAnimation(message, 50);
+
+  // Ensure message is valid
+  if (!message || typeof message !== 'string') {
+    return null; // or return a fallback UI
+  }
+
+  // Use the typing animation hook
+  const displayedText = useTypingAnimation(message, 25);
 
   const handleCopy = () => {
     if (message) {
@@ -21,22 +28,14 @@ export default function AiChatBubble({ message }) {
       try {
         const response = await runChat(userInput);
         setAiResponse(response);
-        // Update this specific message
-        // setChatHistory(prevHistory =>
-        //   prevHistory.map(chat =>
-        //     chat.id === messageId
-        //       ? { ...chat, ai: response }
-        //       : chat
-        //   )
-        // );
       } catch (error) {
-        console.error("Error regenerating response: ", error);
+        console.error("Error regenerating response:", error);
       }
     }
   };
 
   return (
-    <main className="relative flex-col justify-start items-center mb-2">
+    <main className="relative flex-col justify-start items-center">
       <div className="p-2 border-b-2 border-b-neutral-200">
         <Markdown
           components={{

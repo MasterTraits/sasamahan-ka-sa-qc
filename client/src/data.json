@@ -29,27 +29,32 @@
     {
       "id": "124134",
       "category": "the void",
-      "title": "just nothing"
-    },
-    {
-      "id": "5of8km668",
-      "title": "New Chat",
-      "date": "January 24, 2025",
+      "title": "just nothing",
       "messages": [
         {
-          "id": "1737702077223",
-          "ai": ""
-        }
-      ]
-    },
-    {
-      "id": "5of8km668",
-      "title": "New Chat",
-      "date": "January 24, 2025",
-      "messages": [
+          "id": "1737709679119",
+          "user": "Just posting data",
+          "ai": "An error occurred. Please try again later."
+        },
         {
-          "id": "1737702077223",
-          "ai": ""
+          "id": "1737709679119",
+          "user": "Just posting data",
+          "ai": "An error occurred. Please try again later."
+        },
+        {
+          "id": "1737712723428",
+          "user": "fuck this nigga",
+          "ai": "An error occurred. Please try again later."
+        },
+        {
+          "id": "1737712723428",
+          "user": "fuck this nigga",
+          "ai": "An error occurred. Please try again later."
+        },
+        {
+          "id": "1737712723428",
+          "user": "WORK CUH",
+          "ai": "An error occurred. Please try again later."
         }
       ]
     }

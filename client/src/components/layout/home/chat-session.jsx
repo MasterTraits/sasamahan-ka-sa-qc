@@ -6,7 +6,7 @@ import UserChatBubble from "@/components/features/aiChatComponents/userChatBubbl
 import AiChatBubble from "@/components/features/aiChatComponents/aiChatBubble";
 import LdotStream from "../../ui/loading/dotStream";
 
-import { useParams, Link, Navigate } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import runChat from "@/config/gemini";
 import api from "@/config/axios";
@@ -18,18 +18,16 @@ export default function ChatSession({ textValue }) {
   const { userInput, aiResponse, setAiResponse } = useUserContext();
   const [chatData, setChatData] = useState({});
   const [loadingMessageId, setLoadingMessageId] = useState(null);
-  const [redirect, setRedirect] = useState(false)
+  const [redirect, setRedirect] = useState(false);
+  const [randomId] = useState(() => Math.random().toString(36).substring(2, 11));
 
-  // Have got to fucking fix this 
-  useEffect(() => {
-    postData();
-  }, []);
-
-  useEffect(() => {
-    if (redirect) {
-      Navigate(`/home/${randomId}`)
-    }
-  }, [redirect]);
+  // useEffect(() => {
+  //   postData();
+  //   if (redirect) {
+  //     setRedirect(false);
+  //     window.location.href = `/home/${randomId}`;
+  //   }
+  // }, [redirect, randomId]);
 
   useEffect(() => {
     if (!textValue) {

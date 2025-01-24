@@ -7,6 +7,7 @@ WORKDIR /app
 # Copy the requirements file into the container
 COPY requirements.txt .
 
+RUN pip cache purge 
 # Install the dependencies
 RUN python -m pip install --default-timeout=1000 -r requirements.txt
 
