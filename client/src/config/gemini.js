@@ -18,7 +18,6 @@ const runChat = async (userInput) => {
     const data = await response.json();
     return data.message; 
   } catch (error) {
-    console.error("Error during API request:", error);
     return "An error occurred. Please try again later."; 
   }
 };

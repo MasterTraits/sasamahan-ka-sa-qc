@@ -7,6 +7,13 @@ import { useTypingAnimation } from './useTypingAnim';
 
 export default function AiChatBubble({ message }) {
   const { userInput, setAiResponse } = useContext(UserInputContext);
+
+  // Ensure message is valid
+  if (!message || typeof message !== 'string') {
+    return null; // or return a fallback UI
+  }
+
+  // Use the typing animation hook
   const displayedText = useTypingAnimation(message, 25);
 
   const handleCopy = () => {
@@ -20,13 +27,6 @@ export default function AiChatBubble({ message }) {
       try {
         const response = await runChat(userInput);
         setAiResponse(response);
-        setChatHistory(prevHistory =>
-          prevHistory.map(chat =>
-            chat.id === messageId
-              ? { ...chat, ai: response }
-              : chat
-          )
-        );
       } catch (error) {
         console.error("Error regenerating response:", error);
       }
@@ -36,6 +36,7 @@ export default function AiChatBubble({ message }) {
   return (
     <main className="relative flex-col justify-start items-center">
       <div className="p-2 border-b-2 border-b-neutral-200">
+        {/* Display the animated text */}
         <p>{displayedText}</p>
       </div>
       
