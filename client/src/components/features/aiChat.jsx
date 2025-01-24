@@ -62,7 +62,6 @@ export default function AiChat() {
     <main className="h-screen shadow-xl flex flex-col p-4">
       <Header text="AI Chat Interface" />
       <section className="p-4 flex-grow h-auto overflow-y-auto">
-        <h1>AI Chat Interface</h1>
         {chatHistory.map((chat) => (
           <div key={chat.id} className="space-y-4 mb-6">
             <UserChatBubble message={chat.user} />

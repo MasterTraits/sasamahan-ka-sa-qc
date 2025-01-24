@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Card, CardTitle, CardContent, CardHeader } from '@/components/ui/Card';
 import { Line, Bar, Pie, Doughnut, PolarArea, Radar } from 'react-chartjs-2';
-import { Edit, Trash, Move } from 'lucide-react'; // Added Move icon for resize handle
+import { Edit, Trash, Move } from 'lucide-react';
 import GraphGenerator from '../graphs/graph';
 import AddGraph from './addGraphButton';
 
@@ -31,7 +31,7 @@ export default function DashboardContent() {
       updatedGraphs[editGraphIndex] = graphConfig;
       setSavedGraphs(updatedGraphs);
     } else {
-      setSavedGraphs([...savedGraphs, graphConfig]);
+      setSavedGraphs([...savedGraphs, { ...graphConfig, id: Date.now() }]); // Add a unique ID
     }
   };
 
@@ -41,25 +41,25 @@ export default function DashboardContent() {
     setGraphData(true);
   };
 
-  const handleDeleteGraph = (index) => {
-    const updatedGraphs = savedGraphs.filter((_, i) => i !== index);
+  const handleDeleteGraph = (id) => {
+    const updatedGraphs = savedGraphs.filter((graph) => graph.id !== id);
     setSavedGraphs(updatedGraphs);
   };
 
   // Handle card resizing
-  const handleResize = (index, event) => {
+  const handleResize = (id, event) => {
     event.preventDefault();
     const startX = event.clientX;
     const startY = event.clientY;
-    const startWidth = cardDimensions[index]?.width || 300; // Default width
-    const startHeight = cardDimensions[index]?.height || 320; // Default height
+    const startWidth = cardDimensions[id]?.width || 400; // Default width
+    const startHeight = cardDimensions[id]?.height || 400; // Default height
 
     const handleMouseMove = (e) => {
-      const newWidth = startWidth + (e.clientX - startX);
-      const newHeight = startHeight + (e.clientY - startY);
+      const newWidth = Math.min(Math.max(startWidth + (e.clientX - startX), 300), 600); // Min: 300px, Max: 600px
+      const newHeight = Math.min(Math.max(startHeight + (e.clientY - startY), 300), 600); // Min: 300px, Max: 600px
       setCardDimensions((prev) => ({
         ...prev,
-        [index]: { width: newWidth, height: newHeight },
+        [id]: { width: newWidth, height: newHeight },
       }));
     };
 
@@ -72,38 +72,12 @@ export default function DashboardContent() {
     window.addEventListener('mouseup', handleMouseUp);
   };
 
-  // Calculate whether to show the AddGraph button
+  // Set the maximum number of graphs to 6
+  const maxGraphs = 6;
+
+  // Update showAddButton based on the number of saved graphs
   useEffect(() => {
-    const gridContainer = gridContainerRef.current;
-    if (!gridContainer) return;
-
-    const calculateMaxGraphs = () => {
-      const viewportHeight = window.innerHeight;
-      const cardHeight = 320; // Approximate height of each card (adjust as needed)
-      const gap = 16; // Gap between cards
-      const maxRows = Math.floor((0.8 * viewportHeight) / (cardHeight + gap)); // 80% of viewport height
-
-      const cardsPerRow = window.innerWidth < 768 ? 1 : window.innerWidth < 1024 ? 2 : 3; // Responsive cards per row
-      const maxGraphs = maxRows * cardsPerRow;
-
-      return maxGraphs;
-    };
-
-    const checkAddButtonVisibility = () => {
-      const maxGraphs = calculateMaxGraphs();
-      const hasSpace = savedGraphs.length < maxGraphs;
-
-      setShowAddButton(hasSpace);
-    };
-
-    checkAddButtonVisibility();
-
-    const observer = new ResizeObserver(checkAddButtonVisibility);
-    observer.observe(gridContainer);
-
-    return () => {
-      observer.disconnect();
-    };
+    setShowAddButton(savedGraphs.length < maxGraphs);
   }, [savedGraphs]);
 
   return (
@@ -122,43 +96,45 @@ export default function DashboardContent() {
       ) : (
         <section
           ref={gridContainerRef}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full place-items-center"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full place-items-center gap-4"
           style={{ maxHeight: '80vh' }}
         >
-          {savedGraphs.map((graph, index) => (
+          {savedGraphs.map((graph) => (
             <Card
-              key={index}
+              key={graph.id} // Use unique ID as key
               className="relative bg-white shadow-md flex flex-col"
               style={{
-                width: cardDimensions[index]?.width || '300px',
-                height: cardDimensions[index]?.height || '320px',
+                width: cardDimensions[graph.id]?.width ? `${cardDimensions[graph.id].width / 16}rem` : '25rem',
+                height: cardDimensions[graph.id]?.height ? `${cardDimensions[graph.id].height / 16}rem` : '25rem',
+                minWidth: '18.75rem', // Minimum width
+                minHeight: '18.75rem', // Minimum height
+                maxWidth: '37.5rem', // Maximum width
+                maxHeight: '37.5rem', // Maximum height
               }}
             >
               <CardHeader className="flex justify-between items-center">
                 <CardTitle className="text-header text-center">{graph.title}</CardTitle>
                 <div className="flex space-x-2">
-                  <button onClick={() => handleEditGraph(index)} className="text-grayText hover:text-blue transition transform">
+                  <button onClick={() => handleEditGraph(savedGraphs.indexOf(graph))} className="text-grayText hover:text-blue transition transform">
                     <Edit size={20} />
                   </button>
-                  <button onClick={() => handleDeleteGraph(index)} className="text-red-500 hover:text-red-700">
+                  <button onClick={() => handleDeleteGraph(graph.id)} className="text-red-500 hover:text-red-700">
                     <Trash size={20} />
                   </button>
                 </div>
               </CardHeader>
-              <CardContent className="h-auto w-full flex justify-center items-center p-4">
-                <div className="w-full h-full">
-                  {graph.type === 'line' && <Line data={graph.data} options={graph.options} />}
-                  {graph.type === 'bar' && <Bar data={graph.data} options={graph.options} />}
-                  {graph.type === 'pie' && <Pie data={graph.data} options={graph.options} />}
-                  {graph.type === 'doughnut' && <Doughnut data={graph.data} options={graph.options} />}
-                  {graph.type === 'polarArea' && <PolarArea data={graph.data} options={graph.options} />}
-                  {graph.type === 'radar' && <Radar data={graph.data} options={graph.options} />}
-                </div>
+              <CardContent className="flex justify-center items-center w-full h-full max-h-[70%]">
+                {graph.type === 'line' && <Line data={graph.data} options={graph.options} />}
+                {graph.type === 'bar' && <Bar data={graph.data} options={graph.options} />}
+                {graph.type === 'pie' && <Pie data={graph.data} options={graph.options} />}
+                {graph.type === 'doughnut' && <Doughnut data={graph.data} options={graph.options} />}
+                {graph.type === 'polarArea' && <PolarArea data={graph.data} options={graph.options} />}
+                {graph.type === 'radar' && <Radar data={graph.data} options={graph.options} />}
               </CardContent>
               {/* Resize handle */}
               <div
                 className="absolute bottom-0 right-0 cursor-se-resize p-2"
-                onMouseDown={(e) => handleResize(index, e)}
+                onMouseDown={(e) => handleResize(graph.id, e)}
               >
                 <Move size={16} className="text-gray-500" />
               </div>
@@ -169,4 +145,4 @@ export default function DashboardContent() {
       )}
     </main>
   );
-}
+}   
