@@ -10,52 +10,48 @@
           "ai": "An error occurred. Please try again later."
         },
         {
-          "id": "1737574422324",
-          "user": "change data again",
+          "id": "1737626412568",
+          "user": "Ion care",
           "ai": "An error occurred. Please try again later."
         },
         {
-          "id": "1737574448230",
-          "user": "aguyy",
+          "id": "1737626412568",
+          "user": "Ion care",
           "ai": "An error occurred. Please try again later."
         },
         {
-          "id": "1737574580246",
-          "user": "no changes i guess",
+          "id": "1737626412568",
+          "user": "Ion care",
           "ai": "An error occurred. Please try again later."
         }
       ]
     },
     {
-      "id": "2",
-      "category": "errr",
-      "title": "example",
-      "messages": [
-        {
-          "user": "Fucking error",
-          "ai": "An error occurred. Please try again later."
-        },
-        {
-          "user": "UMAYYY",
-          "ai": "An error occurred. Please try again later."
-        },
-        {
-          "user": "broo please",
-          "ai": "An error occurred. Please try again later."
-        },
-        {
-          "user": "really losing my mind",
-          "ai": "An error occurred. Please try again later."
-        },
-        {
-          "user": "nothing works?",
-          "ai": "An error occurred. Please try again later."
-        }
-      ]
-    }, {
       "id": "124134",
       "category": "the void",
       "title": "just nothing"
+    },
+    {
+      "id": "5of8km668",
+      "title": "New Chat",
+      "date": "January 24, 2025",
+      "messages": [
+        {
+          "id": "1737702077223",
+          "ai": ""
+        }
+      ]
+    },
+    {
+      "id": "5of8km668",
+      "title": "New Chat",
+      "date": "January 24, 2025",
+      "messages": [
+        {
+          "id": "1737702077223",
+          "ai": ""
+        }
+      ]
     }
   ]
 }

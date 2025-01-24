@@ -11,6 +11,7 @@ export default function TextArea({extraClass}) {
   const { setUserInput } = useUserContext();
   const [inputValue, setInputValue] = useState(""); 
   
+  // comment out if cannot render
   const handleSubmit = (e) => {
     e.preventDefault();
     if (inputValue.trim()) {
@@ -19,9 +20,6 @@ export default function TextArea({extraClass}) {
     }
   };
 
-  const handleInputChange = (e) => {
-    setInputValue(e.target.value);
-  };
 
   return (
     <Card className={`${extraClass}*:bg-white w-full rounded-2xl bg-white border border-neutral-150 shadow-lg z-10`}>
@@ -30,7 +28,7 @@ export default function TextArea({extraClass}) {
           <Textarea
             placeholder="Write here"
             value={inputValue}
-            onChange={handleInputChange} 
+            onChange={(e)=> setInputValue(e.target.value)} 
             className="font-medium text-neutral-600 tracking-tight rounded-xl"
             rows="1"
           />

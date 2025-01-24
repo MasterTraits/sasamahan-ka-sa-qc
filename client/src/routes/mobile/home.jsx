@@ -30,7 +30,7 @@ export default function Home() {
 
       {cardAppear || id ? (
         <UserInputProvider>
-          <ChatSession />
+          <ChatSession textValue={textContent} />
         </UserInputProvider>
       ) : (
         <main className="flex flex-col gap-7 justify-center items-start mx-7 h-full pb-32">
@@ -48,7 +48,7 @@ export default function Home() {
           <Card className="*:bg-white w-full rounded-2xl bg-white shadow-lg">
             <CardContent className="p-3 rounded-2xl">
               <form
-                onSubmit={() => setCardAppear(true)}
+                onSubmit={(e) => { e.preventDefault(); setCardAppear(true); }}
                 className="flex flex-col gap-4"
               >
                 <Textarea

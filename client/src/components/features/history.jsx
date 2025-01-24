@@ -49,7 +49,7 @@ export default function History() {
             >
               <Button
                 variant="ghost"
-                className="flex items-center gap-2 w-[217px] h-[53px] bg-[#33363f] rounded-3xl text-[#afafaf]"
+                className="flex items-center gap-2 w-[217px] h-[53px] bg-[#33363f] rounded-2xl text-[#afafaf]"
               >
                 <span className="font-semibold">New Advice</span>
                 <Plus className="w-[18px] h-[18px]" />
@@ -62,7 +62,7 @@ export default function History() {
 
           <div className="relative w-full">
             <Input
-              className="h-[53px] bg-[#55575ee6] border-none rounded-3xl px-6 text-[#afafaf] placeholder:text-[#afafaf] placeholder:font-semibold"
+              className="h-[53px] bg-[#55575ee6] border-none rounded-2xl px-6 text-[#afafaf] placeholder:text-[#afafaf] placeholder:font-semibold"
               placeholder="Search"
               value={searchData}
               onChange={(e) => setData(e.target.value)}
@@ -96,7 +96,7 @@ export default function History() {
                     variant="ghost"
                     className="w-full justify-start p-0 h-auto font-medium text-base text-[#959595] tracking-[-0.32px] hover:bg-transparent hover:text-white"
                   >
-                    {session.title || "No Title"}
+                    {session.title || "New Chat"}
                   </Button>
                 </Link>
               ))}
