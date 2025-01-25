@@ -103,7 +103,7 @@ export default function AiChat() {
 
   return (
     <>
-      <main className="h-screen shadow-xl flex flex-col p-4">
+      <main className="h-screen shadow-xl flex flex-col p-4 bg-white">
         <Header title={generatedTitle} />
         <section className="p-4 flex-grow h-auto overflow-y-auto">
           {chatHistory.map((chat) => (

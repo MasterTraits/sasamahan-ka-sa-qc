@@ -35,7 +35,7 @@ function Dashboard() {
               </UserInputProvider>
             </ResizablePanel>
             <ResizableHandle withHandle />
-            <ResizablePanel>
+            <ResizablePanel className="gradient-custom">
               <section className="flex relative h-full w-full items-center justify-center">
                 <Desktop />
               </section>

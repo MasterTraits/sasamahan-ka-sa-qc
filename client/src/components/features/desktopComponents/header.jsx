@@ -8,8 +8,8 @@ export default function Header(props) {
     <header className="flex items-center justify-between w-full relative ">
       <span className="text-header font-bold text-[3rem] ">
         <h1>
-          Welcome Back, <br />
-          <p className="mt-[-1.5rem]">{props.name}</p>
+          Welcome,&nbsp;
+          {props.name}
         </h1>
       </span>
 
