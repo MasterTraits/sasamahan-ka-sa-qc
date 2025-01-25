@@ -7,29 +7,7 @@ import Footer_Navigator from "@/components/layout/nav";
 import History from "@/components/features/history";
 
 import { useHistory } from "@/store/useHistory";
-
-const chartData = [
-  {
-    title: "Inventory",
-    total: "25,000",
-    topExpense: "5,000",
-    items: [
-      { label: "Payroll", color: "#f4be37" },
-      { label: "Inventory", color: "#0d2535" },
-      { label: "Utilities", color: "#5388d8" },
-    ],
-  },
-  {
-    title: "Expenses",
-    total: "25,000",
-    topExpense: "5,000",
-    items: [
-      { label: "Payroll", color: "#f4be37" },
-      { label: "Inventory", color: "#0d2535" },
-      { label: "Utilities", color: "#5388d8" },
-    ],
-  },
-];
+import DashboardContent from "@/components/features/desktopComponents/dashboardItem";
 
 export default function view() {
   const menu = useHistory((state) => state.menu);
@@ -37,7 +15,7 @@ export default function view() {
   return (
     <div className="relative gradient-custom h-screen w-full overflow-hidden">
       <Header text="Views" />
-      <Card className="relative h-[calc(100%-160px)] bg-white rounded-t-2xl rounded-b-3xl mx-3 mt-2 border border-neutral-200">
+      <Card className="relative h-[calc(100%-160px)] bg-white rounded-t-2xl rounded-b-3xl mx-3 mt-2 border border-neutral-200 ">
         <CardHeader className="flex flex-row items-center justify-between px-4 py-5 leading-tight">
           <p className="leading-3 text-sm text-[#030303] font-medium">
             Session 01
@@ -51,8 +29,10 @@ export default function view() {
           </Button>
         </CardHeader>
         <hr />
-        <CardContent className="relative h-[calc(100%-90px)] p-4">
-          
+        <CardContent className="relative  h-[calc(100%-90px)] p-4">
+          <div className="h-full relative w-full pt-8 ">
+          <DashboardContent  />
+          </div>
         </CardContent>
       </Card>
       {menu && <History />}
