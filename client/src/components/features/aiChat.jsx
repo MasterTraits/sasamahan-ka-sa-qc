@@ -8,6 +8,7 @@ import runChat from "@/config/gemini";
 import { dotStream } from 'ldrs';
 import toast from "../layout/toast";
 import axios from "axios";
+import Form from './form';
 
 dotStream.register();
 
@@ -22,6 +23,12 @@ export default function AiChat() {
 
   const [loadingMessageId, setLoadingMessageId] = useState(null);
   const [generatedTitle, setGeneratedTitle] = useState("");
+  const [showContextForm, setShowContextForm] = useState(true); // State to control the visibility of the context form
+  const [businessType, setBusinessType] = useState("");
+  const [monthlyRevenue, setMonthlyRevenue] = useState("");
+  const [businessPlacement, setBusinessPlacement] = useState("");
+  const [financeUnderstanding, setFinanceUnderstanding] = useState("");
+  const [comfortWithGraphs, setComfortWithGraphs] = useState("");
 
   useEffect(() => {
     const generateTitle = async (chatHistory) => {
@@ -61,6 +68,31 @@ export default function AiChat() {
 
     generateTitle(chatHistory);
   }, [chatHistory]);
+
+  const handleContextSubmit = async (e) => {
+    e.preventDefault();
+    setShowContextForm(false); // Hide the form after submission
+
+    const context = {
+      business_type: businessType,
+      monthly_revenue: monthlyRevenue,
+      business_placement: businessPlacement,
+      finance_understanding: financeUnderstanding,
+      comfort_with_graphs: comfortWithGraphs,
+    };
+
+    try {
+      // Send the context to the backend
+      await axios.post('http://localhost:8000/api/set-context', context);
+      console.log("Context submitted successfully");
+    } catch (error) {
+      console.error("Error submitting context:", error.message);
+    }
+  };
+  const handleSkipForm = () => {
+    setShowContextForm(false); // Hide the form without submitting
+    console.log("Form skipped, no context provided");
+  };
 
   const fetchAIResponse = async () => {
     if (!userInput || userInput.trim() === "") return;
@@ -105,6 +137,23 @@ export default function AiChat() {
     <>
       <main className="h-screen shadow-xl flex flex-col p-4 bg-white">
         <Header title={generatedTitle} />
+        <section className="p-4 flex-grow h-auto overflow-x-auto">
+          <Form 
+            showContextForm={showContextForm}
+            handleContextSubmit={handleContextSubmit}
+            handleSkipForm={handleSkipForm}
+            businessType={businessType}
+            setBusinessType={setBusinessType}
+            monthlyRevenue={monthlyRevenue}
+            setMonthlyRevenue={setMonthlyRevenue}
+            businessPlacement={businessPlacement}
+            setBusinessPlacement={setBusinessPlacement}
+            financeUnderstanding={financeUnderstanding}
+            setFinanceUnderstanding={setFinanceUnderstanding}
+            comfortWithGraphs={comfortWithGraphs}
+            setComfortWithGraphs={setComfortWithGraphs}
+          />
+        </section>
         <section className="p-4 flex-grow h-auto overflow-y-auto">
           {chatHistory.map((chat) => (
             <div key={chat.id} className="space-y-4 mb-6">
