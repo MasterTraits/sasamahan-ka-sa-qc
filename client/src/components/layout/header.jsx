@@ -7,7 +7,7 @@ import {
 import { useHistory } from '@/store/useHistory';
 import { useCallback } from 'react';
 
-export default function header({text}) {
+export default function Header({title }) {
   const openMenu = useCallback(useHistory((state)=> state.openMenu))
 
   return (
@@ -18,9 +18,10 @@ export default function header({text}) {
       >
         <Menu className="h-5 w-5 text-neutral-600" />
         <span className="font-bold text-lg text-neutral-600 tracking-tight">
-          {text}
+          {title || "New Conversation"}
         </span>
       </button>
+
 
       <div className="flex items-center mx-2 gap-5 pr-2 *:p-1 *:rounded-full">
         <div className="hover:bg-white text-center">
