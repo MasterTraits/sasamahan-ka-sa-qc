@@ -11,7 +11,7 @@ import AI_MIC from "@/assets/mic";
 import ChatSession from "@/components/layout/home/chat-session";
 import History from "@/components/features/history";
 
-// Utilities
+// Utilities  
 import { useState } from "react";
 import { useHistory } from "@/store/useHistory";
 import { UserInputProvider } from "@/contexts/useUserContext";
@@ -89,7 +89,7 @@ export default function Home() {
         </main>
       )}
 
-      {menu ? <History /> : ""}
+      {menu ? <History mobile={true}/> : ""}
       <Footer_Navigator page="home" />
     </div>
   );

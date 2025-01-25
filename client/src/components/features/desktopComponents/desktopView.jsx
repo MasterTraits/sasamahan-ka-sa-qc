@@ -5,7 +5,7 @@ import DashboardContent from './dashboardItem';
 export default function Desktop() {
   return (
     <main className="flex flex-col w-full h-screen p-8 relative items-center">
-      <Header name="Estanislao" />
+      <Header name="User" />
         <DashboardContent/>
     </main>
   );

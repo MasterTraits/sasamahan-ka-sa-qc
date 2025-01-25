@@ -1,5 +1,4 @@
-
-const API_ENDPOINT = "http://localhost:8080/api/chat";
+const API_ENDPOINT = "http://localhost:8000/api/chat";
 
 const runChat = async (userInput) => {
   try {
@@ -18,11 +17,8 @@ const runChat = async (userInput) => {
     const data = await response.json();
     return data.message; 
   } catch (error) {
-    return "An error occurred. Please try again later."; 
+    throw new Error(error.message || "An error occurred"); S
   }
 };
 
-
 export default runChat;
-
-

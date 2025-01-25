@@ -6,12 +6,12 @@ import { Separator } from "@/components/ui/separator";
 import { ArrowRight, Plus, Search } from "lucide-react";
 import { jellyTriangle } from "ldrs"; jellyTriangle.register();
 
-import api from "@/config/axios";
+import api from "@/config/jsonserver";
 import { useState, useEffect } from "react";
 import { useHistory } from "@/store/useHistory";
 import { Link } from "react-router-dom";
 
-export default function History() {
+export default function History({mobile}) {
   const [history, setHistory] = useState([]);
   const [searchData, setData] = useState("");
   const [loading, setLoading] = useState(false);
@@ -37,7 +37,7 @@ export default function History() {
   const closeMenu = useHistory((state) => state.closeMenu);
 
   return (
-    <Card className="absolute left-0 top-0 w-80 h-full backdrop-blur bg-neutral-800 border-none rounded-none opacity-90 z-50">
+    <Card className={`${mobile ? `bg-neutral-800 w-80` : `bg-white border-r-2 border-neutral-500 w-[22rem]`} absolute left-0 top-0  h-full backdrop-blur  border-none rounded-none opacity-90 z-50`}>
       <CardContent className="flex flex-col gap-8 p-[18px] pt-8">
         <div className="flex flex-col gap-[15px]">
           <div className="flex items-center gap-[31px]">
@@ -47,7 +47,7 @@ export default function History() {
             >
               <Button
                 variant="ghost"
-                className="flex items-center gap-2 w-[217px] h-[53px] bg-[#33363f] rounded-2xl text-[#afafaf]"
+                className={`${mobile ? `bg-[#33363f] text-[#afafaf]` : `bg-neutral-200 text-neutral-700 hover:bg-neutral-300`} flex items-center gap-2 w-[217px] h-[53px] rounded-2xl `}
               >
                 <span className="font-semibold">New Advice</span>
                 <Plus className="w-[18px] h-[18px]" />
@@ -60,7 +60,7 @@ export default function History() {
 
           <div className="relative w-full">
             <Input
-              className="h-[53px] bg-[#55575ee6] border-none rounded-2xl px-6 text-[#afafaf] placeholder:text-[#afafaf] placeholder:font-semibold"
+              className={`${mobile ? `bg-[#55575ee6] text-[#afafaf]` : `bg-neutral-200 text-neutral-700 hover:bg-neutral-300`} h-[53px] border-none rounded-2xl px-6  placeholder:text-[#afafaf] placeholder:font-semibold`}
               placeholder="Search"
               value={searchData}
               onChange={(e) => setData(e.target.value)}
@@ -76,28 +76,34 @@ export default function History() {
               <l-jelly-triangle
                 size="40"
                 speed="2"
-                color="white"
+                color={`${mobile ? `white`: `black`}`}
               ></l-jelly-triangle>
             </div>
           ) : (
             <div className="flex flex-col gap-4">
               <div className="text-xs font-semibold text-[#959595] tracking-[-0.24px]">
-                Previous 7 days
+                Just Recently
               </div>
-              {history.map((session) => (
-                <Link
-                  reloadDocument
-                  key={session.id}
-                  to={`/home/${session.id}`}
-                >
-                  <Button
-                    variant="ghost"
-                    className="w-full justify-start p-0 h-auto font-medium text-base text-[#959595] tracking-[-0.32px] hover:bg-transparent hover:text-white"
+              {history.length > 0 ? (
+                history.map((session) => (
+                  <Link
+                    reloadDocument
+                    key={session.id}
+                    to={`${mobile ? `/home/${session.id}` : `/desktop/${session.id}`} `}
                   >
-                    {session.title || "New Chat"}
-                  </Button>
-                </Link>
-              ))}
+                    <Button
+                      variant="ghost"
+                      className={`${mobile ? `hover:text-white` : `hover:text-black`} w-full justify-start p-0 h-auto font-medium text-base text-[#959595] tracking-[-0.32px] hover:bg-transparent`}
+                    >
+                      {session.title || "New Chat"}
+                    </Button>
+                  </Link>
+                ))
+              ) : (
+                <div className="mt-56 flex items-center justify-center w-full text-center text-[#959595]">
+                  No history available.
+                </div>
+              )}
             </div>
           )}
         </ScrollArea>

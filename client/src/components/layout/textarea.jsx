@@ -20,7 +20,6 @@ export default function TextArea({extraClass}) {
     }
   };
 
-
   return (
     <Card className={`${extraClass}*:bg-white w-full rounded-2xl bg-white border border-neutral-150 shadow-lg z-10`}>
       <CardContent className="p-3 rounded-2xl">
