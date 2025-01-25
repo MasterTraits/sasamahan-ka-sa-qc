@@ -6,7 +6,7 @@ import UserChatBubble from "./aiChatComponents/userChatBubble";
 import AiChatBubble from "./aiChatComponents/aiChatBubble";
 import runChat from "@/config/gemini";
 import { dotStream } from 'ldrs';
-import toast from "../layout/toast";
+import Toast from "../layout/toast"; // Import the Toast component
 dotStream.register();
 
 export default function AiChat() {
@@ -19,17 +19,16 @@ export default function AiChat() {
   } = useContext(UserInputContext);
 
   const [loadingMessageId, setLoadingMessageId] = useState(null);
+  const [toastConfig, setToastConfig] = useState({ show: false, success: false, message: "" }); // Toast state
 
   const fetchAIResponse = async () => {
-    if (!userInput || userInput.trim() === "") return; // Ensure userInput is valid
+    if (!userInput || userInput.trim() === "") return;
 
     const messageId = Date.now().toString();
     setLoadingMessageId(messageId);
 
     try {
       const response = await runChat(userInput);
-
-      // Ensure the response is valid before updating the state
       if (!response || typeof response !== 'string') {
         throw new Error("Invalid response from the API");
       }
@@ -44,7 +43,7 @@ export default function AiChat() {
     } catch (error) {
       console.error(error);
 
-      // Add an error message to chatHistory if the API call fails
+      // Add an error message to chatHistory
       setChatHistory((prevHistory) => [
         ...prevHistory,
         { id: messageId, user: userInput, ai: "Sorry, there was an error generating the response." },

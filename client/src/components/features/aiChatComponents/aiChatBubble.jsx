@@ -1,20 +1,17 @@
 import { UserInputContext } from '@/contexts/useUserContext';
+import { TypeAnimation } from 'react-type-animation';
 import React, { useContext } from 'react';
 import { Copy } from 'lucide-react';
 import ThumbsButton from './thumbsButton';
 import runChat from '@/config/gemini';
-import { useTypingAnimation } from './useTypingAnim';
 
 export default function AiChatBubble({ message }) {
   const { userInput, setAiResponse } = useContext(UserInputContext);
 
-  // Ensure message is valid
+  
   if (!message || typeof message !== 'string') {
-    return null; // or return a fallback UI
+    return null; 
   }
-
-  // Use the typing animation hook
-  const displayedText = useTypingAnimation(message, 25);
 
   const handleCopy = () => {
     if (message) {
@@ -36,8 +33,12 @@ export default function AiChatBubble({ message }) {
   return (
     <main className="relative flex-col justify-start items-center">
       <div className="p-2 border-b-2 border-b-neutral-200">
-        {/* Display the animated text */}
-        <p>{displayedText}</p>
+        <TypeAnimation
+        sequence={[message]}
+        style={{whiteSpace: 'pre-line'}}
+        speed={50}
+
+        />
       </div>
       
       <section className='flex gap-1 items-center'>
