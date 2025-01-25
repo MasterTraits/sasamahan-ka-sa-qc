@@ -21,14 +21,6 @@ export default function ChatSession({ textValue }) {
   const [redirect, setRedirect] = useState(false);
   const [randomId] = useState(() => Math.random().toString(36).substring(2, 11));
 
-  // useEffect(() => {
-  //   postData();
-  //   if (redirect) {
-  //     setRedirect(false);
-  //     window.location.href = `/home/${randomId}`;
-  //   }
-  // }, [redirect, randomId]);
-
   useEffect(() => {
     if (!textValue) {
       fetchData();
