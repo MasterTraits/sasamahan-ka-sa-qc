@@ -30,11 +30,7 @@ nltk.download('stopwords')
 app = FastAPI()
 
 # CORS
-origins = [
-    "http://localhost:5173",
-    "http://localhost:8000",
-    "http://127.0.0.1:8000" 
-]
+origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
@@ -76,6 +72,40 @@ vector_storage = VectorStorage()
 transformer_model = SentenceTransformer('all-MiniLM-L6-v2')
 #CORS
 
+
+# @app.post("/api/graph")
+# async def suggest_graph(request: Request):
+#     pass
+user_context = {}
+
+class ContextRequest(BaseModel):
+    business_type: str
+    monthly_revenue: str
+    business_placement: str
+    finance_understanding: str
+    comfort_with_graphs: str
+
+@app.post("/api/set-context")
+async def set_context(request: ContextRequest = None):
+    global user_context
+    if request:
+        user_context = {
+            "business_type": request.business_type,
+            "monthly_revenue": request.monthly_revenue,
+            "business_placement": request.business_placement,
+            "finance_understanding": request.finance_understanding,
+            "comfort_with_graphs": request.comfort_with_graphs,
+        }
+    else:
+        user_context = {}  # No context provided
+    return {"message": "Context set successfully"}
+
+@app.get("/api/get-context")
+async def get_context():
+    global user_context
+    if not user_context:
+        raise HTTPException(status_code=404, detail="Context not set")
+    return user_context
 
 @app.post("/api/title")
 async def generate_title(request: Request):
@@ -121,6 +151,18 @@ async def chat(request: ChatRequest):
         # Create focused context from relevant chunks
         relContext = "\n".join(relevant_chunks)
         
+        # Add user context to the prompt
+        global user_context
+        if user_context:
+            user_context_str = f"""
+            Business Type: {user_context["business_type"]}
+            Average Monthly Revenue: {user_context["monthly_revenue"]}
+            Business Placement: {user_context["business_placement"]}
+            Understanding of Business Finances (1-10): {user_context["finance_understanding"]}
+            Comfort with Financial Graphs (1-10): {user_context["comfort_with_graphs"]}
+            """
+            relContext = f"{user_context_str}\n\n{relContext}"
+        
         # Build prompt with focused context
         context = f"Using this document content as reference:\n\n{relContext}\n\nUser Question: {request.message}"
         
@@ -132,7 +174,6 @@ async def chat(request: ChatRequest):
     except Exception as e:
         logger.error(f"Error in chat endpoint: {str(e)}", exc_info=True)
         raise HTTPException(status_code=500, detail=str(e))
-
 
 @app.post("/api/upload") 
 async def upload_file(file: UploadFile = File(...)):
@@ -162,5 +203,7 @@ async def upload_file(file: UploadFile = File(...)):
         logger.error(f"Error uploading or processing file: {str(e)}", exc_info=True)
         return JSONResponse({"message": f"An error occurred: {str(e)}"}, status_code=500)
 
-
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)
 
