@@ -7,7 +7,7 @@ import AiChatBubble from "@/components/features/aiChatComponents/aiChatBubble";
 import LdotStream from "../../ui/loading/dotStream";
 
 // Utilities
-import { useParams, Link, Navigate } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import runChat from "@/config/gemini";
 import api from "@/config/jsonserver";
@@ -22,6 +22,7 @@ export default function ChatSession({ textValue }) {
                     "http://127.0.0.1:8000/api/title"
 
   const [loadingMessageId, setLoadingMessageId] = useState(null);
+  const [generatedTitle, setGeneratedTitle] = useState("");
   
   useEffect(() => {
     if (textValue)
@@ -45,12 +46,14 @@ export default function ChatSession({ textValue }) {
 
   // Originally: fetchAIResponse
   const putData = async () => {
-    if (!userInput) return;
+    if (!userInput || userInput.trim() === "") return;
+    setLoadingMessageId(messageId)
 
     try {
       const response = await runChat(userInput);
-      setAiResponse(response);
-
+      if (!response || typeof response !== "string") 
+        throw new Error("Invalid response from the API");
+      
       await api
         .put(`/history/${id}`, {
           ...chatData,
@@ -67,11 +70,27 @@ export default function ChatSession({ textValue }) {
           console.error("Failed to post chat history:", err);
         });
 
-      const fetchData = await api.get(`/history/${id}`);
-      setChatData(fetchData.data);
+      fetchData();
       
     } catch (error) {
-      console.error("Error fetching AI response:", error);
+      await api
+        .put(`/history/${id}`, {
+          ...chatData,
+          messages: [
+            ...(chatData.messages || []),
+            {
+              id: messageId,
+              user: userInput,
+              ai: "An error occured please try again.",
+            },
+          ],
+        })
+        .catch((err) => {
+          console.error("Failed to post chat history:", err);
+        });
+        
+      fetchData();
+
     } finally {
       setLoadingMessageId(null);
     }
@@ -79,31 +98,31 @@ export default function ChatSession({ textValue }) {
 
   // POST DATA
   const postData = async (initialData) => {
-    if (!initialData) return; 
-    const title = "";
-
+    if (!initialData || initialData.trim() === "") return; 
+    setLoadingMessageId(messageId)
+    
     try {
-      const response = await runChat(initialData);
-      setAiResponse(response);
+      // const response = await runChat(initialData);
+      // if (!response || typeof response !== "string") 
+      //   throw new Error("Invalid response from the API");
 
       await api.post("/history", {
-      id: randomId,
-      title: title || "New Chat",
-      date: formattedDate,
-      messages: [
-        {
-        id: messageId,
-        user: initialData,
-        ai: aiResponse,
-        },
-      ],
+        id: randomId,
+        title: title || "New Chat",
+        date: formattedDate,
+        messages: [
+          {
+          id: messageId,
+          user: initialData,
+          ai: "response",
+          graphs: ``
+          },
+        ],
       }).catch((err) => {
         console.error("Failed to post chat history:", err);
-      });
+      }); 
 
-      const fetchData = await api.get(`/history/${randomId}`);
-      setChatData(fetchData.data);
-
+      window.location.href = `/home/${randomId}`
     } catch (err) {
       console.error("Error fetching AI response:", err);
     }

@@ -17,34 +17,47 @@ import GraphGenerator from "@/components/features/graphs/graph";
 import { UserInputProvider } from "@/contexts/useUserContext";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
+import { useHistory } from "@/store/useHistory";
 
 function Dashboard() {
   const { id } = useParams();
+  const menu = useHistory((state) => state.menu);
 
   const [cardAppear, setCardAppear] = useState(false);
   const [textContent, setTextContent] = useState("");
 
   return (
     <>
-      <main className={`h-screen w-screen relative ${cardAppear || id ? `` : `flex justify-center items-center gradient-custom overflow-hidden`}`}>
+      <main
+        className={`h-screen w-screen relative ${
+          cardAppear || id
+            ? ``
+            : `flex justify-center items-center gradient-custom overflow-hidden`
+        }`}
+      >
         {cardAppear || id ? (
           <ResizablePanelGroup direction="horizontal">
-            <ResizablePanel defaultSize={23} minSize={20} maxSize={35}>
+            <ResizablePanel defaultSize={23} maxSize={35}>
+
               <UserInputProvider>
                 <AiChat />
               </UserInputProvider>
+              {menu ? <History mobile={false} /> : ""}
+              
             </ResizablePanel>
             <ResizableHandle withHandle />
-            <ResizablePanel className="gradient-custom">
+            <ResizablePanel className="">
+
               <section className="flex relative h-full w-full items-center justify-center">
                 <Desktop />
               </section>
+
             </ResizablePanel>
           </ResizablePanelGroup>
         ) : (
           <main className="ml-80 flex flex-col gap-10 justify-center items-center mx-7 mt-24 h-full w-[calc(50%-100px)] pb-32">
             <h1 className="text-center font-normal text-4xl text-[#383838] tracking-tighter font-montserrat mx-2">
-              Harness the Power of Data 
+              Harness the Power of Data
               <br /> with
               <span
                 className="font-jost text-4xl font-semibold bg-gradient-to-l tracking-tighter

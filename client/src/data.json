@@ -15,14 +15,14 @@
           "ai": "An error occurred. Please try again later."
         },
         {
-          "id": "1737626412568",
-          "user": "Ion care",
-          "ai": "An error occurred. Please try again later."
+          "id": "1737877108769",
+          "user": "asdas",
+          "ai": "An error occured please try again."
         },
         {
-          "id": "1737626412568",
-          "user": "Ion care",
-          "ai": "An error occurred. Please try again later."
+          "id": "1737877108769",
+          "user": "asdas",
+          "ai": "An error occured please try again."
         }
       ]
     },
@@ -34,16 +34,6 @@
         {
           "id": "1737709679119",
           "user": "Just posting data",
-          "ai": "An error occurred. Please try again later."
-        },
-        {
-          "id": "1737709679119",
-          "user": "Just posting data",
-          "ai": "An error occurred. Please try again later."
-        },
-        {
-          "id": "1737712723428",
-          "user": "fuck this nigga",
           "ai": "An error occurred. Please try again later."
         },
         {
@@ -60,6 +50,32 @@
           "id": "1737776080665",
           "user": "BRUHH",
           "ai": "An error occurred. Please try again later."
+        }
+      ]
+    },
+    {
+      "id": "iaw2nmg18",
+      "title": "New Chat",
+      "date": "January 26, 2025",
+      "messages": [
+        {
+          "id": "1737876494452",
+          "user": "uassdyiasd",
+          "ai": "uassdyiasd",
+          "graphs": ""
+        }
+      ]
+    },
+    {
+      "id": "goax4900t",
+      "title": "New Chat",
+      "date": "January 26, 2025",
+      "messages": [
+        {
+          "id": "1737876938448",
+          "user": "post nigga",
+          "ai": "response",
+          "graphs": ""
         }
       ]
     }
