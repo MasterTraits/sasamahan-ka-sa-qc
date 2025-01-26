@@ -6,7 +6,7 @@ import GraphGenerator from '../graphs/graph';
 import AddGraph from './addGraphButton';
 import GraphSuggestionPopup from './graphSuggestionPopup';
 
-export default function DashboardContent() {
+export default function DashboardContent({mobile}) {
   const [graphData, setGraphData] = useState(false);
   const [savedGraphs, setSavedGraphs] = useState([]);
   const [editGraphIndex, setEditGraphIndex] = useState(null);
@@ -77,11 +77,11 @@ export default function DashboardContent() {
   };
 
   useEffect(() => {
-    setShowAddButton(savedGraphs.length < 6);
+    setShowAddButton(true);
   }, [savedGraphs]);
 
   return (
-    <main className="flex flex-col items-center h-full w-full justify-center lg:overflow-hidden sm:overflow-y-auto">
+    <main className={`flex flex-col ${savedGraphs < 1 ? `items-center justify-center` : `` } h-full w-[99%] sm:overflow-y-auto`}>
       {graphData && (
         <GraphGenerator
           onClose={() => setGraphData(false)}
@@ -96,7 +96,7 @@ export default function DashboardContent() {
       ) : (
         <section
           ref={gridContainerRef}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 w-full place-items-center gap-4 p-4"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 w-full place-items-center gap-4 p-4 grid-flow-row"
           style={{ maxHeight: '80vh' }}
         >
           {savedGraphs.map((graph) => (
@@ -130,7 +130,11 @@ export default function DashboardContent() {
               </div>
             </Card>
           ))}
-          {showAddButton && <AddGraph onclick={() => setGraphData(true)} />}
+          {showAddButton && 
+            <AddGraph 
+              onclick={() => setGraphData(true)} 
+              isMobile={mobile}
+          />}  
         </section>
       )}
 

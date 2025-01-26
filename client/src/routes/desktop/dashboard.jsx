@@ -12,7 +12,6 @@ import AI_MIC from "@/assets/mic";
 import AiChat from "@/components/features/aiChat";
 import Desktop from "@/components/features/desktopComponents/desktopView";
 import History from "@/components/features/history";
-import GraphGenerator from "@/components/features/graphs/graph";
 
 import { UserInputProvider } from "@/contexts/useUserContext";
 import { useParams } from "react-router-dom";

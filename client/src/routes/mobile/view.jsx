@@ -47,9 +47,9 @@ export default function view() {
           </Button>
         </CardHeader>
         <hr />
-        <CardContent className="relative  h-[calc(100%-90px)] p-4">
+        <CardContent className="relative  h-[calc(100%-90px)] p-4 overflow-y-auto">
           <div className="h-full relative w-full pt-8 ">
-          <DashboardContent  />
+          <DashboardContent mobile={true} />
           </div>
         </CardContent>
       </Card>

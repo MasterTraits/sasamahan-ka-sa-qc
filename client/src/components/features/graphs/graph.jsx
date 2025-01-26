@@ -128,7 +128,7 @@ export default function GraphGenerator({ onClose, onSaveToDashboard, initialConf
 
   return (
     <main className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <section className="bg-white rounded-lg p-4 sm:p-6 w-11/12 max-w-4xl mx-4 sm:mx-0">
+      <section className="bg-white rounded-lg p-4 sm:p-7 max-h-[80%] lg:w-1/2 max-w-4xl mx-4 sm:mx-0 overflow-y-auto">
         <header className="flex justify-between items-center mb-4">
           <h2 className="text-lg sm:text-xl font-bold">Create Graph</h2>
           <button onClick={onClose} className="text-red-500 hover:text-red-700">
@@ -136,7 +136,7 @@ export default function GraphGenerator({ onClose, onSaveToDashboard, initialConf
           </button>
         </header>
 
-        <form className="space-y-4">
+        <form className="relative space-y-4">
           <fieldset className="flex flex-col space-y-2">
             <label htmlFor="file-upload" className="text-sm font-medium">
               Upload CSV File
@@ -233,7 +233,7 @@ export default function GraphGenerator({ onClose, onSaveToDashboard, initialConf
             </>
           )}
 
-          <footer className="flex justify-end">
+          <footer className="flex justify-end pt-2">
             <button
               type="button"
               onClick={handleSaveToDashboard}
