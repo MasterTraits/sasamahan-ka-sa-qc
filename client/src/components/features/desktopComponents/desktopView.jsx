@@ -4,9 +4,11 @@ import { Card, CardTitle } from '@/components/ui/card';
 import DashboardContent from './dashboardItem';
 export default function Desktop() {
   return (
-    <main className="flex flex-col w-full h-screen p-8 relative items-center">
-      <Header name="User" />
+    <main className="h-screen w-full relative">
+      <Header name="User"  />
+      <div className='h-full flex items-center '>
         <DashboardContent/>
+      </div>
     </main>
   );
 }

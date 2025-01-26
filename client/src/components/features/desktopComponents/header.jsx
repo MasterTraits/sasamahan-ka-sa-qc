@@ -5,29 +5,28 @@ import { FaBell } from "react-icons/fa";
 
 export default function Header(props) {
   return (
-    <header className="flex items-center justify-between w-full relative ">
-      <span className="text-header font-bold text-[3rem] ">
+    <header className="flex items-center px-8 pt-8 pb-4 justify-between w-full relative ">
+      <span className="px-4 rounded-2xl text-header font-mono shadow-md border border-neutral-200 text-lg tracking-tighter">
         <h1>
-          Welcome,&nbsp;
-          {props.name}
+          Welcome, <span className='font-extrabold'>{props.name}</span>
         </h1>
       </span>
 
       <span className="flex items-center gap-4">
-        <button className="w-[auto] px-4 py-2 flex items-center gap-1 rounded-full justify-center ring-2 ring-grayText ring-opacity-50 shadow-md">
-            <FaUserCircle className='text-3xl' />
-            <p className="text-header font-medium">
+        <button className="bg-white w-[auto] px-3 py-0.5 flex items-center gap-2 rounded-full justify-center ring-2 ring-grayText ring-opacity-50 shadow-md">
+            <FaUserCircle className='text-md' />
+            <p className="text-header font-mono font-semibold">
                 {props.name}
             </p>
         </button>
 
-        <div className="w-[7rem] h-[3rem] flex items-center gap-2 rounded-full justify-center ring-2 ring-grayText ring-opacity-50 shadow-md ">
+        <div className="bg-white w-[auto] px-3 py-2 flex items-center gap-2 rounded-full justify-center ring-2 ring-grayText ring-opacity-50 shadow-md">
             <button>
-                <Settings size={30}/>
+                <Settings size={22}/>
             </button>
 
             <button>
-                <FaBell className='text-3xl'/>
+                <FaBell className='ml-2 text-xl'/>
             </button>
         </div>
       </span>

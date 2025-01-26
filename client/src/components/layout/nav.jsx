@@ -3,8 +3,11 @@ import {
   LineChart
 } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import { useId } from '@/store/useId'; 
 
 export default function nav({page}) {
+  const ID = useId((state) => state.passId)
+
   return (
     <footer className="absolute left-0 bottom-0 w-full flex items-center justify-evenly h-16 bg-white border-t border-stone-200">
       <Link 
@@ -15,7 +18,7 @@ export default function nav({page}) {
         <span className="text-xs tracking-tight font-medium">Generate</span>
       </Link>
       <Link 
-        to="/view"
+        to={`/view/${ID}`}
         className={`relative flex flex-col items-center justify-center p-4 px-14 ${ page == "view" ? `bg-slate-200 rounded-t-[2em]` : ``}`}
       >
         <LineChart className="h-8 w-8" />

@@ -3,6 +3,7 @@
     {
       "id": "1",
       "category": "something",
+      "date": "September 18, 2024",
       "title": "Loan Options for House Rental Business",
       "messages": [
         {
@@ -15,14 +16,14 @@
           "ai": "An error occurred. Please try again later."
         },
         {
-          "id": "1737626412568",
-          "user": "Ion care",
-          "ai": "An error occurred. Please try again later."
+          "id": "1737877108769",
+          "user": "asdas",
+          "ai": "An error occured please try again."
         },
         {
-          "id": "1737626412568",
-          "user": "Ion care",
-          "ai": "An error occurred. Please try again later."
+          "id": "1737877108769",
+          "user": "asdas",
+          "ai": "An error occured please try again."
         }
       ]
     },
@@ -34,16 +35,6 @@
         {
           "id": "1737709679119",
           "user": "Just posting data",
-          "ai": "An error occurred. Please try again later."
-        },
-        {
-          "id": "1737709679119",
-          "user": "Just posting data",
-          "ai": "An error occurred. Please try again later."
-        },
-        {
-          "id": "1737712723428",
-          "user": "fuck this nigga",
           "ai": "An error occurred. Please try again later."
         },
         {
@@ -60,6 +51,115 @@
           "id": "1737776080665",
           "user": "BRUHH",
           "ai": "An error occurred. Please try again later."
+        },
+        {
+          "id": "1737883907787",
+          "user": "put data",
+          "ai": "An error occured please try again."
+        },
+        {
+          "id": "1737883907787",
+          "user": "asda",
+          "ai": "An error occured please try again."
+        },
+        {
+          "id": "1737883907787",
+          "user": "try again",
+          "ai": "An error occured please try again."
+        },
+        {
+          "id": "1737883907787",
+          "user": "try again",
+          "ai": "An error occured please try again."
+        },
+        {
+          "id": "1737883907787",
+          "user": "try again",
+          "ai": "An error occured please try again."
+        },
+        {
+          "id": "1737890857998",
+          "user": "put data",
+          "ai": "An error occurred, please try again."
+        }
+      ]
+    },
+    {
+      "id": "iaw2nmg18",
+      "title": "New Chat",
+      "date": "January 26, 2025",
+      "messages": [
+        {
+          "id": "1737876494452",
+          "user": "uassdyiasd",
+          "ai": "uassdyiasd",
+          "graphs": ""
+        }
+      ]
+    },
+    {
+      "id": "goax4900t",
+      "title": "New Chat",
+      "date": "January 26, 2025",
+      "messages": [
+        {
+          "id": "1737876938448",
+          "user": "post nigga",
+          "ai": "response",
+          "graphs": ""
+        },
+        {
+          "id": "1737893479488",
+          "user": "just trying to post",
+          "ai": "An error occurred, please try again."
+        },
+        {
+          "id": "1737893479488",
+          "user": "update data again",
+          "ai": "An error occurred, please try again."
+        }
+      ]
+    },
+    {
+      "id": "4y87tgc37",
+      "title": "New Chat",
+      "date": "January 26, 2025",
+      "messages": [
+        {
+          "id": "1737890868243",
+          "user": "try again",
+          "ai": "response",
+          "graphs": ""
+        },
+        {
+          "id": "1737890972303",
+          "user": "hello world",
+          "ai": "An error occurred, please try again."
+        }
+      ]
+    },
+    {
+      "id": "4y87tgc37",
+      "title": "New Chat",
+      "date": "January 26, 2025",
+      "messages": [
+        {
+          "id": "1737890868243",
+          "user": "try again",
+          "ai": "response",
+          "graphs": ""
+        }
+      ]
+    },
+    {
+      "id": "ntoobjep8",
+      "title": "New Chat",
+      "date": "January 27, 2025",
+      "messages": [
+        {
+          "id": "1737924515283",
+          "user": "postData",
+          "ai": "response"
         }
       ]
     }

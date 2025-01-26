@@ -5,7 +5,7 @@ export default function redirect() {
       window.location.href = "/home"
     else 
       window.location.href = "/desktop"
-  }, 1000)
+  }, 700)
 
   return (
     <div className="h-screen w-full flex items-center justify-center">

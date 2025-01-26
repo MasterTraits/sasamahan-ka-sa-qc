@@ -10,8 +10,9 @@ import Header from "@/components/layout/header";
 import AI_MIC from "@/assets/mic";
 import ChatSession from "@/components/layout/home/chat-session";
 import History from "@/components/features/history";
+import Form from '@/components/features/form'
 
-// Utilities  
+// Utilities
 import { useState } from "react";
 import { useHistory } from "@/store/useHistory";
 import { UserInputProvider } from "@/contexts/useUserContext";
@@ -24,9 +25,43 @@ export default function Home() {
   const [cardAppear, setCardAppear] = useState(false);
   const [textContent, setTextContent] = useState("");
 
+  const [showContextForm, setShowContextForm] = useState(true); // State to control the visibility of the context form
+  const [businessType, setBusinessType] = useState("");  
+  const [monthlyRevenue, setMonthlyRevenue] = useState("");
+  const [businessPlacement, setBusinessPlacement] = useState("");
+  const [financeUnderstanding, setFinanceUnderstanding] = useState("");
+  const [comfortWithGraphs, setComfortWithGraphs] = useState("");
+
+  const handleContextSubmit = async (e) => {
+    e.preventDefault();
+    setShowContextForm(false);
+
+    const context = {
+      business_type: businessType,
+      monthly_revenue: monthlyRevenue,
+      business_placement: businessPlacement,
+      finance_understanding: financeUnderstanding,
+      comfort_with_graphs: comfortWithGraphs,
+    };
+
+    try {
+      // Send the context to the backend
+      await axios.post("http://localhost:8000/api/set-context", context);
+      console.log("Context submitted successfully");
+    } catch (error) {
+      console.error("Error submitting context:", error.message);
+    }
+  };
+
+  const handleSkipForm = () => {
+    setShowContextForm(false);
+    console.log("Form skipped, no context provided");
+  };
+
+
   return (
     <div className="relative gradient-custom h-screen w-full overflow-hidden">
-      <Header text="Menu" />
+      <Header title="Menu" />
 
       {cardAppear || id ? (
         <UserInputProvider>
@@ -48,7 +83,10 @@ export default function Home() {
           <Card className="*:bg-white w-full rounded-2xl bg-white shadow-lg">
             <CardContent className="p-3 rounded-2xl">
               <form
-                onSubmit={(e) => { e.preventDefault(); setCardAppear(true); }}
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  setCardAppear(true);
+                }}
                 className="flex flex-col gap-4"
               >
                 <Textarea
@@ -86,10 +124,27 @@ export default function Home() {
               </form>
             </CardContent>
           </Card>
+          <section className="absolute p-4 flex-grow h-auto overflow-x-auto">
+            <Form
+              showContextForm={showContextForm}
+              handleContextSubmit={handleContextSubmit}
+              handleSkipForm={handleSkipForm}
+              businessType={businessType}
+              setBusinessType={setBusinessType}
+              monthlyRevenue={monthlyRevenue}
+              setMonthlyRevenue={setMonthlyRevenue}
+              businessPlacement={businessPlacement}
+              setBusinessPlacement={setBusinessPlacement}
+              financeUnderstanding={financeUnderstanding}
+              setFinanceUnderstanding={setFinanceUnderstanding}
+              comfortWithGraphs={comfortWithGraphs}
+              setComfortWithGraphs={setComfortWithGraphs}
+            />
+          </section>
         </main>
       )}
 
-      {menu ? <History mobile={true}/> : ""}
+      {menu ? <History mobile={true} /> : ""}
       <Footer_Navigator page="home" />
     </div>
   );

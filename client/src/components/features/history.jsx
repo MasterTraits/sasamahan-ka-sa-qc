@@ -37,8 +37,8 @@ export default function History({mobile}) {
   const closeMenu = useHistory((state) => state.closeMenu);
 
   return (
-    <Card className={`${mobile ? `bg-neutral-800 w-80` : `bg-white border-r-2 border-neutral-600 w-[22rem]`} absolute left-0 top-0  h-full backdrop-blur  border-none rounded-none opacity-90 z-50`}>
-      <CardContent className="flex flex-col gap-8 p-[18px] pt-8">
+    <Card className={`${mobile ? `bg-neutral-800 w-80` : `bg-white border-r-2 border-neutral-600 w-[22rem] mx-2`} absolute left-0 top-0  h-full backdrop-blur  border-none rounded-none opacity-90 z-50`}>
+      <CardContent className="flex flex-col gap-8 p-[18px] pt-8"> 
         <div className="flex flex-col gap-[15px]">
           <div className="flex items-center gap-[31px]">
             <Link
@@ -60,7 +60,7 @@ export default function History({mobile}) {
 
           <div className="relative w-full">
             <Input
-              className={`${mobile ? `bg-[#55575ee6] text-[#afafaf]` : `bg-neutral-200 text-neutral-700 hover:bg-neutral-300`} h-[53px] border-none rounded-2xl px-6  placeholder:text-[#afafaf] placeholder:font-semibold`}
+              className={`${mobile ? `bg-[#55575ee6] text-[#afafaf]` : `bg-neutral-200 text-neutral-700 hover:bg-neutral-300`} h-[53px] border-none rounded-2xl px-6  placeholder:text-neutral-500 placeholder:font-semibold`}
               placeholder="Search"
               value={searchData}
               onChange={(e) => setData(e.target.value)}

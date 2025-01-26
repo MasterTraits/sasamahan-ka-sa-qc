@@ -60,6 +60,16 @@
     );
   }
 
+  .gradient-custom-adjust {
+    background: linear-gradient(
+      190deg,
+      #5388d8 -1.32%,
+      #f6f7fb 14.62%,
+      #f8f8f8 82.97%,
+      #f4be37 120.07%
+    );
+  }
+
   /* Hide scrollbar for Chrome, Safari and Opera */
   .no-scrollbar::-webkit-scrollbar {
     display: none;
