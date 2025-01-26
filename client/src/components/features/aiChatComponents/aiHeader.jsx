@@ -15,7 +15,7 @@ export default function aiHeader({ title }) {
       >
         <Menu className="h-5 w-5 text-neutral-600" />
         <span className="font-bold text-left text-lg text-neutral-600 tracking-tight">
-          {title || "Menu"}
+          {title}
         </span>
       </button>
 

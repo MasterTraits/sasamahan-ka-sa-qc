@@ -5,7 +5,7 @@ import { FaBell } from "react-icons/fa";
 
 export default function Header(props) {
   return (
-    <header className="flex items-center px-8 pt-8 pb-3 justify-between w-full relative ">
+    <header className="flex items-center px-8 pt-8 pb-4 justify-between w-full relative ">
       <span className="px-4 rounded-2xl text-header font-mono shadow-md border border-neutral-200 text-lg tracking-tighter">
         <h1>
           Welcome, <span className='font-extrabold'>{props.name}</span>

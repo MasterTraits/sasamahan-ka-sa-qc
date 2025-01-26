@@ -8,25 +8,20 @@ import { UserInputContext } from "@/contexts/useUserContext";
 import runChat from "@/config/gemini";
 import api from "@/config/jsonserver";
 import axios from "axios";
-import Form from './form';
 import { useParams  } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { formattedDate, randomId, messageId } from "@/lib/extraData";
 
-export default function AiChat({ textValue }) {
+export default function AiChat({ 
+    textValue,
+  }) {
   const { id } = useParams();
-  const { userInput, chatHistory, setChatHistory } =
+  const { userInput } =
     useContext(UserInputContext);
   const [chatData, setChatData] = useState({});
 
   const [loadingMessageId, setLoadingMessageId] = useState(null);
   const [generatedTitle, setGeneratedTitle] = useState("");
-  const [showContextForm, setShowContextForm] = useState(true); // State to control the visibility of the context form
-  const [businessType, setBusinessType] = useState("");
-  const [monthlyRevenue, setMonthlyRevenue] = useState("");
-  const [businessPlacement, setBusinessPlacement] = useState("");
-  const [financeUnderstanding, setFinanceUnderstanding] = useState("");
-  const [comfortWithGraphs, setComfortWithGraphs] = useState("");
 
   useEffect(() => {
     if (textValue) postData(textValue);
@@ -37,8 +32,8 @@ export default function AiChat({ textValue }) {
   }, [userInput]);
 
   useEffect(() => {
-    generateTitle(chatHistory);
-  }, [chatHistory]);
+    generateTitle(chatData);
+  }, [chatData]);
 
   const fetchData = async () => {
     try {
@@ -49,18 +44,18 @@ export default function AiChat({ textValue }) {
     }
   };
 
-  const generateTitle = async (chatHistory) => {
-    if (chatHistory.length === 0) {
+  const generateTitle = async (chatData) => {
+    if (chatData.title.length === 0) {
       setGeneratedTitle("New Conversation");
       return; // Exit early
-    } else if (chatHistory.length < 3) {
+    } else if (chatData.length < 3) {
       setGeneratedTitle("Generating Title...");
       return; // Exit early
     }
 
     try {
       const payload = {
-        chat_history: chatHistory.map((chat) => ({
+        chat_history: chatData.messages?.map((chat) => ({
           role: chat.ai ? "assistant" : "user", // Determine role based on whether it's an AI response
           content: chat.ai ? chat.ai : chat.user, // Use AI response or user input
         })),
@@ -84,33 +79,8 @@ export default function AiChat({ textValue }) {
   };
 
 
-  const handleContextSubmit = async (e) => {
-    e.preventDefault();
-    setShowContextForm(false); // Hide the form after submission
-
-    const context = {
-      business_type: businessType,
-      monthly_revenue: monthlyRevenue,
-      business_placement: businessPlacement,
-      finance_understanding: financeUnderstanding,
-      comfort_with_graphs: comfortWithGraphs,
-    };
-
-    try {
-      // Send the context to the backend
-      await axios.post('http://localhost:8000/api/set-context', context);
-      console.log("Context submitted successfully");
-    } catch (error) {
-      console.error("Error submitting context:", error.message);
-    }
-  };
-  const handleSkipForm = () => {
-    setShowContextForm(false); // Hide the form without submitting
-    console.log("Form skipped, no context provided");
-  };
-
   const putData = async () => {
-    if (!userInput || userInput.trim() === "") return;
+    if (!userInput?.trim()) return;
     setLoadingMessageId(messageId);
 
     try {
@@ -118,64 +88,55 @@ export default function AiChat({ textValue }) {
       if (!response || typeof response !== "string")
         throw new Error("Invalid response from the API");
 
-      await api 
-        .put(`/history/${id}`, {
-          ...chatData,
-          messages: [
-            ...(chatData.messages || []),
-            {
-              id: messageId,
-              user: userInput,
-              ai: response,
-            },
-          ],
-        })
-        .catch((err) => {
-          console.error("Failed to post chat history:", err);
-        });
+      await api.put(`/history/${id}`, {
+        ...chatData,
+        messages: [
+          ...(chatData.messages || []),
+          { id: messageId, user: userInput, ai: response },
+        ],
+      });
 
-      const fetchData = await api.get(`/history/${id}`);
-      setChatData(fetchData.data);
+      fetchData();
     } catch (error) {
-      console.error("Error fetching AI response:", error);
+      await api.put(`/history/${id}`, {
+        ...chatData,
+        messages: [
+          ...(chatData.messages || []),
+          {
+            id: messageId,
+            user: userInput,
+            ai: "An error occurred, please try again.",
+          },
+        ],
+      });
+
+      fetchData();
     } finally {
       setLoadingMessageId(null);
     }
   };
 
   const postData = async (initialData) => {
-    if (!initialData) return;
-    const title = "";
+    if (!initialData?.trim()) return;
     setLoadingMessageId(messageId);
 
     try {
-      const response = await runChat(initialData);
+      const response = await runChat(userInput);
       if (!response || typeof response !== "string")
         throw new Error("Invalid response from the API");
 
-      await api
-        .post("/history", {
-          id: randomId,
-          title: title || "New Chat",
-          date: formattedDate,
-          messages: [
-            {
-              id: messageId,
-              user: initialData,
-              ai: response,
-            },
-          ],
-        })
-        .catch((err) => {
-          console.error("Failed to post chat history:", err);
-        });
+      await api.post("/history", {
+        id: randomId,
+        title: chatData.title || "New Chat",
+        date: formattedDate,
+        messages: [
+          { id: messageId, user: initialData, ai: response },
+        ],
+      });
 
-      const fetchData = await api.get(`/history/${randomId}`);
-      setChatData(fetchData.data);
+      window.location.href = `/desktop/${randomId}`;
     } catch (err) {
-      console.error("Error fetching AI response:", err);
-    } finally {
-      setLoadingMessageId(null);
+      console.error("Error posting chat history:", err);
     }
   };
 
@@ -183,26 +144,8 @@ export default function AiChat({ textValue }) {
     <>
       <main className="h-screen shadow-xl flex flex-col p-4 ">
         <AIHeader title={generatedTitle} />
-
-        <section className="p-4 flex-grow h-auto overflow-x-auto">
-          <Form 
-            showContextForm={showContextForm}
-            handleContextSubmit={handleContextSubmit}
-            handleSkipForm={handleSkipForm}
-            businessType={businessType}
-            setBusinessType={setBusinessType}
-            monthlyRevenue={monthlyRevenue}
-            setMonthlyRevenue={setMonthlyRevenue}
-            businessPlacement={businessPlacement}
-            setBusinessPlacement={setBusinessPlacement}
-            financeUnderstanding={financeUnderstanding}
-            setFinanceUnderstanding={setFinanceUnderstanding}
-            comfortWithGraphs={comfortWithGraphs}
-            setComfortWithGraphs={setComfortWithGraphs}
-          />
-        </section>
         <section className="p-4 flex-grow h-auto overflow-y-auto">
-          {chatHistory.map((chat) => (
+          {chatData.messages?.map((chat) => (
             <div key={chat.id} className="space-y-4 mb-6">
               <UserChatBubble message={chat.user} />
               {chat.id === loadingMessageId ? (

@@ -60,7 +60,7 @@ export default function History({mobile}) {
 
           <div className="relative w-full">
             <Input
-              className={`${mobile ? `bg-[#55575ee6] text-[#afafaf]` : `bg-neutral-200 text-neutral-700 hover:bg-neutral-300`} h-[53px] border-none rounded-2xl px-6  placeholder:text-[#afafaf] placeholder:font-semibold`}
+              className={`${mobile ? `bg-[#55575ee6] text-[#afafaf]` : `bg-neutral-200 text-neutral-700 hover:bg-neutral-300`} h-[53px] border-none rounded-2xl px-6  placeholder:text-neutral-500 placeholder:font-semibold`}
               placeholder="Search"
               value={searchData}
               onChange={(e) => setData(e.target.value)}
