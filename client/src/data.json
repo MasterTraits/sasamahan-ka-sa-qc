@@ -50,6 +50,36 @@
           "id": "1737776080665",
           "user": "BRUHH",
           "ai": "An error occurred. Please try again later."
+        },
+        {
+          "id": "1737883907787",
+          "user": "put data",
+          "ai": "An error occured please try again."
+        },
+        {
+          "id": "1737883907787",
+          "user": "asda",
+          "ai": "An error occured please try again."
+        },
+        {
+          "id": "1737883907787",
+          "user": "try again",
+          "ai": "An error occured please try again."
+        },
+        {
+          "id": "1737883907787",
+          "user": "try again",
+          "ai": "An error occured please try again."
+        },
+        {
+          "id": "1737883907787",
+          "user": "try again",
+          "ai": "An error occured please try again."
+        },
+        {
+          "id": "1737890857998",
+          "user": "put data",
+          "ai": "An error occurred, please try again."
         }
       ]
     },
@@ -74,6 +104,37 @@
         {
           "id": "1737876938448",
           "user": "post nigga",
+          "ai": "response",
+          "graphs": ""
+        }
+      ]
+    },
+    {
+      "id": "4y87tgc37",
+      "title": "New Chat",
+      "date": "January 26, 2025",
+      "messages": [
+        {
+          "id": "1737890868243",
+          "user": "try again",
+          "ai": "response",
+          "graphs": ""
+        },
+        {
+          "id": "1737890972303",
+          "user": "hello world",
+          "ai": "An error occurred, please try again."
+        }
+      ]
+    },
+    {
+      "id": "4y87tgc37",
+      "title": "New Chat",
+      "date": "January 26, 2025",
+      "messages": [
+        {
+          "id": "1737890868243",
+          "user": "try again",
           "ai": "response",
           "graphs": ""
         }

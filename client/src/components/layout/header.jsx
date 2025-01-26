@@ -14,7 +14,7 @@ export default function Header({ title }) {
       >
         <Menu className="h-5 w-5 text-neutral-600" />
         <span className="font-bold text-lg text-neutral-600 tracking-tight">
-          {title || "New Chat"}
+          {title || "New Conversation"}
         </span>
       </button>
 

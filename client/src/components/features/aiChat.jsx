@@ -9,7 +9,7 @@ import runChat from "@/config/gemini";
 import api from "@/config/jsonserver";
 import axios from "axios";
 import Form from './form';
-import { useParams, Link } from "react-router-dom";
+import { useParams  } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { formattedDate, randomId, messageId } from "@/lib/extraData";
 

@@ -8,6 +8,8 @@ import History from "@/components/features/history";
 
 import { useHistory } from "@/store/useHistory";
 import DashboardContent from "@/components/features/desktopComponents/dashboardItem";
+import { useEffect, useState } from 'react'
+
 
 export default function view() {
   const menu = useHistory((state) => state.menu);
