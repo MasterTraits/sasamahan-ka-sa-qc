@@ -43,7 +43,6 @@ export default function ChatSession({ textValue }) {
 
     updateHeight();
     window.addEventListener("resize", updateHeight);
-
     updateID()
 
     return () => {
@@ -116,11 +115,11 @@ export default function ChatSession({ textValue }) {
 
   return (
     <Card className="relative h-[calc(100%-160px)] bg-white rounded-t-2xl rounded-b-3xl mx-3 mt-2 border border-neutral-200">
-      <CardHeader ref={referenceMainRef} className="flex flex-row items-center justify-between px-4 py-5 leading-tight">
+      <CardHeader ref={referenceMainRef} className="flex flex-row items-center justify-between px-4 py-5 leading-tight gap-2">
         <p className="leading-3 text-sm text-[#030303] font-medium">
           {chatData.date}
           <br />
-          <span className="mr-4 text-xl font-semibold tracking-tight leading-tight">
+          <span className="text-xl font-semibold tracking-tight leading-tight">
             {chatData.title ? chatData.title.slice(0, 30) + (chatData.title.length < 30 ? "" : "...") : ""}
           </span>
         </p>

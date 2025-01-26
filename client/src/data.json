@@ -3,6 +3,7 @@
     {
       "id": "1",
       "category": "something",
+      "date": "September 18, 2024",
       "title": "Loan Options for House Rental Business",
       "messages": [
         {
@@ -106,6 +107,16 @@
           "user": "post nigga",
           "ai": "response",
           "graphs": ""
+        },
+        {
+          "id": "1737893479488",
+          "user": "just trying to post",
+          "ai": "An error occurred, please try again."
+        },
+        {
+          "id": "1737893479488",
+          "user": "update data again",
+          "ai": "An error occurred, please try again."
         }
       ]
     },
