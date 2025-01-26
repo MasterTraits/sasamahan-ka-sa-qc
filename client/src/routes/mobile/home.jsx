@@ -26,7 +26,7 @@ export default function Home() {
 
   return (
     <div className="relative gradient-custom h-screen w-full overflow-hidden">
-      <Header text="Menu" />
+      <Header />
 
       {cardAppear || id ? (
         <UserInputProvider>
