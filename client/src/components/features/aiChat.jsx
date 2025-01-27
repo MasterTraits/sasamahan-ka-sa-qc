@@ -43,12 +43,11 @@ export default function AiChat({
       console.error(err);
     }
   };
-
   const generateTitle = async (chatData) => {
-    if (chatData.title.length === 0) {
+    if (!chatData.title || chatData.title.length === 0) {
       setGeneratedTitle("New Conversation");
       return; // Exit early
-    } else if (chatData.length < 3) {
+    } else if (chatData.messages?.length < 3) {
       setGeneratedTitle("Generating Title...");
       return; // Exit early
     }

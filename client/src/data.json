@@ -94,6 +94,21 @@
           "user": "uassdyiasd",
           "ai": "uassdyiasd",
           "graphs": ""
+        },
+        {
+          "id": "1737958294755",
+          "user": "who are you?",
+          "ai": "I am GABAY, a financial analysis expert. I'm here to help you understand your business's financial health and provide data-driven recommendations. What kind of financial insights are you looking for today?\n"
+        },
+        {
+          "id": "1737958294755",
+          "user": "what do you recommend to do for a clothing store\n",
+          "ai": "Based on the information I have, I can't give you specific recommendations for your clothing store. However, I can help you analyze your financial data to identify areas for improvement. Do you have any financial statements or sales data you'd like to share?\n"
+        },
+        {
+          "id": "1737958739551",
+          "user": "i dont have but can you tell me what is a financial statements?",
+          "ai": "Financial statements are formal records of a company's financial activities. They provide a snapshot of a company's financial health and performance, typically including the balance sheet, income statement, and cash flow statement. These documents are crucial for understanding a company's profitability, liquidity, and overall financial stability. Do you have any specific questions about these statements or how they're used?\n"
         }
       ]
     },
@@ -160,6 +175,18 @@
           "id": "1737924515283",
           "user": "postData",
           "ai": "response"
+        }
+      ]
+    },
+    {
+      "id": "cwigoadh6",
+      "title": "New Chat",
+      "date": "January 27, 2025",
+      "messages": [
+        {
+          "id": "1737958923674",
+          "user": "hello?",
+          "ai": "Okay, I'm ready to help with your financial analysis needs. What's your question?\n"
         }
       ]
     }
