@@ -1,14 +1,10 @@
-import { 
-  Menu,
-  Bell,
-  LucideUserCircle2
-} from 'lucide-react'
+import { Menu, Bell, LucideUserCircle2 } from "lucide-react";
 
-import { useHistory } from '@/store/useHistory';
-import { useCallback } from 'react';
+import { useHistory } from "@/store/useHistory";
+import { useCallback } from "react";
 
-export default function Header({title }) {
-  const openMenu = useCallback(useHistory((state)=> state.openMenu))
+export default function Header({ title }) {
+  const openMenu = useCallback(useHistory((state) => state.openMenu));
 
   return (
     <header className="flex items-center justify-between mx-4 mt-6">
@@ -21,7 +17,6 @@ export default function Header({title }) {
           {title || "New Conversation"}
         </span>
       </button>
-
 
       <div className="flex items-center mx-2 gap-5 pr-2 *:p-1 *:rounded-full">
         <div className="hover:bg-white text-center">

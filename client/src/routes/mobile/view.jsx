@@ -8,9 +8,27 @@ import History from "@/components/features/history";
 
 import { useHistory } from "@/store/useHistory";
 import DashboardContent from "@/components/features/desktopComponents/dashboardItem";
+import { useEffect, useState } from 'react'
+import api from '@/config/jsonserver'
+import { useId } from "@/store/useId";
 
 export default function view() {
   const menu = useHistory((state) => state.menu);
+  const [viewData, setViewData] = useState({})
+  const ID = useId((state) => state.passId)
+
+  const fetchData = async () => {
+    try {
+      const response = await api.get(`/history/${ID}`)
+      setViewData(response.data);
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  useEffect(()=>{
+    fetchData();
+  },[])
 
   return (
     <div className="relative gradient-custom h-screen w-full overflow-hidden">
@@ -18,10 +36,10 @@ export default function view() {
       <Card className="relative h-[calc(100%-160px)] bg-white rounded-t-2xl rounded-b-3xl mx-3 mt-2 border border-neutral-200 ">
         <CardHeader className="flex flex-row items-center justify-between px-4 py-5 leading-tight">
           <p className="leading-3 text-sm text-[#030303] font-medium">
-            Session 01
+            {viewData.date}
             <br />
-            <span className="text-xl font-semibold tracking-tight leading-tight">
-              How to Generate Revenue
+            <span className="mr-4 text-xl font-semibold tracking-tight leading-tight">
+              {viewData.title}
             </span>
           </p>
           <Button className="text-md rounded-3xl px-6 bg-[#F4BE37] text-white hover:bg-[#F4BE37]/90">
@@ -29,13 +47,13 @@ export default function view() {
           </Button>
         </CardHeader>
         <hr />
-        <CardContent className="relative  h-[calc(100%-90px)] p-4">
+        <CardContent className="relative  h-[calc(100%-90px)] p-4 overflow-y-auto">
           <div className="h-full relative w-full pt-8 ">
-          <DashboardContent  />
+          <DashboardContent mobile={true} />
           </div>
         </CardContent>
       </Card>
-      {menu && <History />}
+      {menu && <History mobile={true}/>}
       <Footer_Navigator page="view" />
     </div>
   );
