@@ -14,6 +14,7 @@ from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from nltk.probability import FreqDist
 from collections import OrderedDict
+from graphSuggestAI import suggest_graph
 
 
 # Load the model
@@ -70,12 +71,8 @@ pdf_storage = PDFStorage()
 csv_storage = CSVStorage()
 vector_storage = VectorStorage()
 transformer_model = SentenceTransformer('all-MiniLM-L6-v2')
+
 #CORS
-
-
-# @app.post("/api/graph")
-# async def suggest_graph(request: Request):
-#     pass
 user_context = {}
 
 class ContextRequest(BaseModel):
@@ -128,6 +125,45 @@ def generate_title_from_chat(chat_history):
     most_frequent_words = list(OrderedDict.fromkeys(word_frequencies.most_common(5)))
     title = " ".join([word[0] for word in most_frequent_words]).title()
     return title
+
+@app.post("/api/suggest-graph")
+async def suggest_graph_endpoint(request: Request):
+    try:
+        data = await request.json()
+        csv_data = data.get("csv_data", [])
+        
+        # Vectorize CSV data as string
+        csv_text = str(csv_data)
+        vector_storage.store_vector(csv_text)
+        csv_vector = vector_storage.get_vector(csv_text)
+        
+        x_axis_column = data.get("x_axis_column")
+        y_axis_column = data.get("y_axis_column")
+
+        logger.info(f"Received CSV data vector shape: {csv_vector.shape}")
+        logger.info(f"X-Axis Column: {x_axis_column}")
+        logger.info(f"Y-Axis Column: {y_axis_column}")
+
+        if not csv_data:
+            raise HTTPException(status_code=400, detail="No data provided")
+
+        # Call the suggest_graph function from the new module
+        result = suggest_graph(csv_data, x_axis_column, y_axis_column)
+        
+        if not result or 'suggestedGraphType' not in result or 'insights' not in result or 'recommendations' not in result or 'predictions' not in result:
+            raise HTTPException(status_code=500, detail="Invalid graph suggestion result")
+
+        return JSONResponse(content={
+            "suggestedGraphType": result["suggestedGraphType"],
+            "insights": result["insights"] if result["insights"] else [],
+            "recommendations": result["recommendations"] if result["recommendations"] else [],
+            "predictions": result["predictions"] if result["predictions"] else [],
+            "vector": csv_vector.tolist()  # Convert numpy array to list for JSON serialization
+        })
+    except Exception as e:
+        logger.error(f"Error in suggest_graph_endpoint: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 
 class ChatRequest(BaseModel):
     message: str
