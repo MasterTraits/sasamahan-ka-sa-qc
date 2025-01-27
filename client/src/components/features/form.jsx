@@ -18,7 +18,6 @@ export default function Form({
   return (
     <section className="p-4 flex-grow h-auto overflow-x-auto">
         {showContextForm && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md min-h-[400px]">
               <h2 className="text-xl font-bold mb-4">Provide Business Context</h2>
               <form onSubmit={handleContextSubmit}>
@@ -54,7 +53,7 @@ export default function Form({
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">On a scale of 1-10, how would you rate your understanding of managing your business finances?</label>
+                    <label className="b lock text-sm font-medium text-gray-700">On a scale of 1-10, how would you rate your understanding of managing your business finances?</label>
                     <input
                       type="number"
                       min="1"
@@ -77,28 +76,30 @@ export default function Form({
                       required
                     />
                   </div>
-                  <div className="flex justify-end">
-                    <button
-                      type="button"
-                      onClick={handleSkipForm}
-                      className="bg-blue-500 text-black px-4 py-2 rounded-md hover:bg-blue-600 opacity-100"
-                    >
-                      Skip
-                    </button>
-                  </div>
-                
-                  <div className="flex justify-end">
-                      <button
-                        type="submit"
-                        className="bg-blue-500 text-black px-4 py-2 rounded-md hover:bg-blue-600 opacity-100"
-                      >
-                        Submit
-                      </button>
-                  </div>
+
+                  <footer className='flex items-center justify-center '>
+                      <div className="flex justify-start flex-grow ">
+                        <button
+                          type="button"
+                          onClick={handleSkipForm}
+                          className="bg-blue text-white px-4 py-2 rounded-md hover:bg-blue-600 transition duration-300"
+                        >
+                          Do this another time!
+                        </button>
+                      </div>
+
+                      <div className='flex justify-end'>
+                        <button
+                          type="submit"
+                          className="bg-green text-white px-4 py-2 rounded-md hover:bg-green-600 transition duration-300"
+                        >
+                          Submit
+                        </button>
+                      </div>
+                  </footer>
                 </div>
               </form>
             </div>
-          </div>
         )}
     </section>
   );
