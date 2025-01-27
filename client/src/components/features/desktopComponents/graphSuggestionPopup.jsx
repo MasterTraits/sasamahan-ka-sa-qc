@@ -2,10 +2,13 @@ import React, { useRef, useState } from 'react';
 import { X, Trash, Edit, Sparkle } from 'lucide-react';
 import { Card, CardTitle, CardContent, CardHeader } from '@/components/ui/Card';
 import { Line, Bar, Pie, Doughnut, PolarArea, Radar } from 'react-chartjs-2';
+import axios from 'axios';
 
 export default function GraphSuggestionPopup({ onClose, onDelete, onEdit, selectedGraph }) {
   const popupRef = useRef(null);
   const [showGabayPopup, setShowGabayPopup] = useState(false);
+  const [gabaySuggestions, setGabaySuggestions] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleClose = () => {
     onClose();
@@ -21,8 +24,27 @@ export default function GraphSuggestionPopup({ onClose, onDelete, onEdit, select
     onClose();
   };
 
-  const handleAskGabay = () => {
-    setShowGabayPopup(true);
+  const handleAskGabay = async () => {
+    setIsLoading(true);
+    try {
+      const response = await axios.post('http://localhost:8000/api/suggest-graph', {
+        csv_data: selectedGraph.data.datasets[0].dataSource,
+        x_axis_column: selectedGraph.xAxisColumn,
+        y_axis_column: selectedGraph.yAxisColumn,
+      });
+      setGabaySuggestions({
+        graphType: response.data.suggestedGraphType,
+        insights: response.data.insights,
+        recommendations: response.data.recommendations,
+        predictions: response.data.predictions,
+      });
+      setShowGabayPopup(true);
+    } catch (error) {
+      console.error("Error fetching GABAY suggestions:", error);
+      alert("Failed to fetch GABAY suggestions. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const renderGraph = () => {
@@ -75,10 +97,17 @@ export default function GraphSuggestionPopup({ onClose, onDelete, onEdit, select
           <div className="mt-4 flex flex-col sm:flex-row gap-2">
             <button
               onClick={handleAskGabay}
+              disabled={isLoading}
               className="bg-purple-500 text-white px-2 py-1 sm:px-3 sm:py-1.5 rounded-md flex items-center justify-center gap-1 sm:gap-2 flex-grow text-xs sm:text-sm"
             >
-              <Sparkle size={12} className="sm:size-4" />
-              Ask GABAY!
+              {isLoading ? (
+                <span>Loading...</span>
+              ) : (
+                <>
+                  <Sparkle size={12} className="sm:size-4" />
+                  Ask GABAY!
+                </>
+              )}
             </button>
             <button
               onClick={handleEdit}
@@ -95,7 +124,6 @@ export default function GraphSuggestionPopup({ onClose, onDelete, onEdit, select
               Delete Current Graph
             </button>
           </div>
-
         </CardContent>
 
         {/* GABAY Popup */}
@@ -111,9 +139,33 @@ export default function GraphSuggestionPopup({ onClose, onDelete, onEdit, select
             </button>
             <CardTitle className="text-xl font-bold">GABAY Suggestions</CardTitle>
             <div className="mt-4">
-              <p className="text-gray-600">
-                This is a placeholder for GABAY suggestions. Here, you can display insights or recommendations based on the selected graph.
-              </p>
+              {gabaySuggestions ? (
+                <>
+                  <p className="text-gray-600">
+                    GABAY suggests using a <strong>{gabaySuggestions.graphType}</strong> graph for this data.
+                  </p>
+                  <div className="mt-4">
+                    <h4 className="text-lg font-semibold">Insights:</h4>
+                    <p className="text-gray-600 whitespace-pre-wrap">
+                      {gabaySuggestions.insights}
+                    </p>
+                    <h4 className="text-lg font-semibold">Recommendations:</h4>
+                    <p className="text-gray-600 whitespace-pre-wrap">
+                      {gabaySuggestions.recommendations}
+                    </p>
+                    <h4 className="text-lg font-semibold">Predictions:</h4>
+                    <p className="text-gray-600 whitespace-pre-wrap">
+                      {gabaySuggestions.predictions}
+                    </p>
+                  </div>
+                </>
+              ) : (
+                <p className="text-gray-600">
+                  No suggestions available. Please try again.
+                </p>
+                 
+
+              )}
             </div>
           </CardContent>
         )}
