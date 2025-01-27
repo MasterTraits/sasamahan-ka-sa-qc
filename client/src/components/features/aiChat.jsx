@@ -3,33 +3,35 @@ import Footer from "../layout/textarea";
 import UserChatBubble from "./aiChatComponents/userChatBubble";
 import AiChatBubble from "./aiChatComponents/aiChatBubble";
 import LdotStream from "@/components/ui/loading/dotStream";
+import Form from "@/components/features/form";
 
 import { UserInputContext } from "@/contexts/useUserContext";
 import runChat from "@/config/gemini";
 import api from "@/config/jsonserver";
 import axios from "axios";
-import { useParams  } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { formattedDate, randomId, messageId } from "@/lib/extraData";
 
-export default function AiChat({ 
-    textValue,
-  }) {
+export default function AiChat() {
   const { id } = useParams();
-  const { userInput } =
-    useContext(UserInputContext);
+  const { userInput } = useContext(UserInputContext);
   const [chatData, setChatData] = useState({});
 
   const [loadingMessageId, setLoadingMessageId] = useState(null);
   const [generatedTitle, setGeneratedTitle] = useState("");
 
+  const [showContextForm, setShowContextForm] = useState(true); // State to control the visibility of the context form
+  const [businessType, setBusinessType] = useState("");
+  const [monthlyRevenue, setMonthlyRevenue] = useState("");
+  const [businessPlacement, setBusinessPlacement] = useState("");
+  const [financeUnderstanding, setFinanceUnderstanding] = useState("");
+  const [comfortWithGraphs, setComfortWithGraphs] = useState("");
+
   useEffect(() => {
-    if (textValue) postData(textValue);
-    else {
       fetchData();
       putData();
-    }
-  }, [userInput]);
+    }, [userInput]);
 
   useEffect(() => {
     generateTitle(chatData);
@@ -77,7 +79,6 @@ export default function AiChat({
     }
   };
 
-
   const putData = async () => {
     if (!userInput?.trim()) return;
     setLoadingMessageId(messageId);
@@ -115,35 +116,37 @@ export default function AiChat({
     }
   };
 
-  const postData = async (initialData) => {
-    if (!initialData?.trim()) return;
-    setLoadingMessageId(messageId);
+  const handleContextSubmit = async (e) => {
+    e.preventDefault();
+    setShowContextForm(false);
+
+    const context = {
+      business_type: businessType,
+      monthly_revenue: monthlyRevenue,
+      business_placement: businessPlacement,
+      finance_understanding: financeUnderstanding,
+      comfort_with_graphs: comfortWithGraphs,
+    };
 
     try {
-      const response = await runChat(userInput);
-      if (!response || typeof response !== "string")
-        throw new Error("Invalid response from the API");
-
-      await api.post("/history", {
-        id: randomId,
-        title: chatData.title || "New Chat",
-        date: formattedDate,
-        messages: [
-          { id: messageId, user: initialData, ai: response },
-        ],
-      });
-
-      window.location.href = `/desktop/${randomId}`;
-    } catch (err) {
-      console.error("Error posting chat history:", err);
+      // Send the context to the backend
+      await axios.post("http://localhost:8000/api/set-context", context);
+      console.log("Context submitted successfully");
+    } catch (error) {
+      console.error("Error submitting context:", error.message);
     }
+  };
+
+  const handleSkipForm = () => {
+    setShowContextForm(false);
+    console.log("Form skipped, no context provided");
   };
 
   return (
     <>
       <main className="h-screen shadow-xl flex flex-col p-4 ">
         <AIHeader title={generatedTitle} />
-        <section className="p-4 flex-grow h-auto overflow-y-auto">
+        <section className="px-2 py-4 flex flex-col flex-grow justify-end h-auto overflow-y-auto">
           {chatData.messages?.map((chat) => (
             <div key={chat.id} className="space-y-4 mb-6">
               <UserChatBubble message={chat.user} />
@@ -157,10 +160,25 @@ export default function AiChat({
             </div>
           ))}
         </section>
-
+        <section className="absolute p-4 flex-grow h-auto overflow-x-auto">
+          <Form
+            showContextForm={showContextForm}
+            handleContextSubmit={handleContextSubmit}
+            handleSkipForm={handleSkipForm}
+            businessType={businessType}
+            setBusinessType={setBusinessType}
+            monthlyRevenue={monthlyRevenue}
+            setMonthlyRevenue={setMonthlyRevenue}
+            businessPlacement={businessPlacement}
+            setBusinessPlacement={setBusinessPlacement}
+            financeUnderstanding={financeUnderstanding}
+            setFinanceUnderstanding={setFinanceUnderstanding}
+            comfortWithGraphs={comfortWithGraphs}
+            setComfortWithGraphs={setComfortWithGraphs}
+          />
+        </section>
         <Footer />
       </main>
     </>
-    
   );
 }
