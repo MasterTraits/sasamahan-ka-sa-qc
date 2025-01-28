@@ -210,28 +210,28 @@
     },
     {
       "id": "cwigoadh6",
-      "title": "New Chat",
-      "date": "January 27, 2025",
+      "title": "Financial Revenue Graphs Finances Monthly",
+      "date": "",
       "messages": [
         {
-          "id": "1737958923674",
-          "user": "hello?",
-          "ai": "Okay, I'm ready to help with your financial analysis needs. What's your question?\n"
+          "id": "1738040457685",
+          "user": "helloo!!",
+          "ai": "Hello! It's great to see you're interested in analyzing your retail store's finances. With an average monthly revenue of 50,000 pesos, there's a lot we can explore. Since you're comfortable with financial graphs, we can definitely use those to visualize your business performance. What specific financial aspects are you most curious about?\n"
         },
         {
-          "id": "1738031095729",
-          "user": "hello?",
-          "ai": "Hello! I see you have a retail store with an average monthly revenue of 50,000 pesos. You also seem to have a good grasp of financial graphs, which is great! To help you further, could you tell me what specific financial aspects of your business you're most interested in exploring?\n"
+          "id": "1738040457685",
+          "user": "how can I improve my monthly revenue?",
+          "ai": "Okay, with a monthly revenue of 50,000 pesos, there's definitely room to grow! Since you have a good grasp of financial graphs, we can use those to track progress. Have you considered analyzing your sales data to identify your best-selling products or peak sales times? This could help you focus your efforts and potentially increase revenue.\n"
         },
         {
-          "id": "1738032378780",
-          "user": "hello??",
-          "ai": "An error occurred, please try again."
+          "id": "1738040755045",
+          "user": "no, can you tell me how to do that?",
+          "ai": "Okay, I understand you're looking for guidance on how to analyze your business finances. Given your comfort with financial graphs, we can definitely use those to visualize your performance. Would you like to start by exploring your revenue trends over time, or perhaps look at your expenses to see where your money is going?\n"
         },
         {
-          "id": "1738032806179",
-          "user": "tesing you gay",
-          "ai": "An error occurred, please try again."
+          "id": "1738040755045",
+          "user": "yes",
+          "ai": "Okay, I understand you're a retail store with an average monthly revenue of 50,000 pesos, operating from a physical location. You also have a moderate understanding of business finances and are very comfortable with financial graphs. \n\nTo help you better, could you tell me what specific financial aspects you're most interested in exploring right now?\n"
         }
       ]
     }
