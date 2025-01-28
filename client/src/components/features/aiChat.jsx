@@ -114,26 +114,26 @@ export default function AiChat() {
 
 
   return (
-    <>
-      <main className="h-screen shadow-xl flex flex-col p-4 ">
-        <AIHeader title={generatedTitle} />
-        <section className="px-2 py-4 flex flex-col flex-grow justify-end h-auto overflow-y-auto">
-          {chatData.messages?.map((chat) => (
-            <div key={chat.id} className="space-y-4 mb-6">
-              <UserChatBubble message={chat.user} />
-              {chat.id === loadingMessageId ? (
-                <div className="flex justify-start p-4">
-                  <LdotStream size="60" speed="2.5" color="black"></LdotStream>
-                </div>
-              ) : (
-                chat.ai && <AiChatBubble message={chat.ai} />
-              )}
+<>
+  <main className="h-screen shadow-xl flex flex-col p-4">
+    <AIHeader title={generatedTitle} />
+    <section className="px-2 py-4 flex flex-col flex-grow overflow-y-auto">
+      {chatData.messages?.map((chat) => (
+        <div key={chat.id} className="space-y-4 mb-6">
+          <UserChatBubble message={chat.user} />
+          {chat.id === loadingMessageId ? (
+            <div className="flex justify-start p-4">
+              <LdotStream size="60" speed="2.5" color="black" />
             </div>
-          ))}
-        </section>
+          ) : (
+            chat.ai && <AiChatBubble message={chat.ai} />
+          )}
+        </div>
+      ))}
+    </section>
+    <Footer />
+  </main>
+</>
 
-        <Footer />
-      </main>
-    </>
   );
 }

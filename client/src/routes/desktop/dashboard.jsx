@@ -19,7 +19,7 @@ function Dashboard() {
       <main
         className={`h-screen w-screen`}
       >
-        <ResizablePanelGroup direction="horizontal">
+        <ResizablePanelGroup direction="horizontal" className='overflow-y-auto'> 
           <ResizablePanel defaultSize={23} maxSize={35}>
             <UserInputProvider>
               <AiChat />
