@@ -32,13 +32,11 @@ export default function AiChatBubble({ message }) {
   return (
     <main className="relative flex-col justify-start items-center">
       <div className="p-2 border-b-2 border-b-neutral-200">
-      <TypeAnimation
-  sequence={[message]}
-  style={{ whiteSpace: "pre-line" }}
-  speed={50}
-  cursor={false}
-  splitter={(str) => str} // Prevent splitting issues
-/>
+        <TypeAnimation
+          sequence={[message]}
+          style={{ whiteSpace: "pre-line" }}
+          speed={50}
+        />
       </div>
 
       <section className="flex gap-1 items-center">
