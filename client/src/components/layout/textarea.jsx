@@ -29,7 +29,7 @@ export default function TextArea({extraClass}) {
             value={inputValue}
             onChange={(e)=> setInputValue(e.target.value)} 
             className="font-medium text-neutral-600 tracking-tight rounded-xl"
-            rows="1"
+
           />
           <div className="flex items-center justify-between">
             <div className="flex gap-3.5">

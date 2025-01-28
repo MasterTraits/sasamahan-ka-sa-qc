@@ -23,7 +23,8 @@ export default function Carousel1() {
   const handleContextSubmit = async (e) => {
     e.preventDefault();
     setShowContextForm(false);
-
+    
+    setShowCarousel(false); 
     const context = {
       business_type: businessType,
       monthly_revenue: monthlyRevenue,
@@ -39,12 +40,12 @@ export default function Carousel1() {
     } catch (error) {
       console.error("Error submitting context:", error.message);
     }
+
   };
 
   const handleSkipForm = () => {
     setShowContextForm(false);
     setShowCarousel(false); // Close the carousel
-    console.log("Form skipped, no context provided");
   };
 
   // If the carousel is closed, don't render anything
