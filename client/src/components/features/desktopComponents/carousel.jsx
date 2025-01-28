@@ -25,6 +25,7 @@ export default function Carousel1() {
     setShowContextForm(false);
     
     setShowCarousel(false); 
+
     const context = {
       business_type: businessType,
       monthly_revenue: monthlyRevenue,

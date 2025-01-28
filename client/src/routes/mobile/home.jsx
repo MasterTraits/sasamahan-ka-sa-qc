@@ -58,7 +58,6 @@ export default function Home() {
     console.log("Form skipped, no context provided");
   };
 
-
   return (
     <div className="relative gradient-custom h-screen w-full overflow-hidden">
       <Header title="Menu" />

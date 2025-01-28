@@ -21,8 +21,6 @@ export default function AiChat() {
   const [loadingMessageId, setLoadingMessageId] = useState(null);
   const [generatedTitle, setGeneratedTitle] = useState("");
 
-  
-
   useEffect(() => {
       fetchData();
       putData();
@@ -40,6 +38,7 @@ export default function AiChat() {
       console.error(err);
     }
   };
+
   const generateTitle = async (chatData) => {
     if (!chatData.title || chatData.title.length === 0) {
       setGeneratedTitle("New Conversation");
