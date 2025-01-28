@@ -26,7 +26,7 @@ export default function AiChat() {
   useEffect(() => {
       fetchData();
       putData();
-    }, [userInput]);
+  }, [userInput]);
 
   useEffect(() => {
     generateTitle(chatData);
