@@ -41,6 +41,8 @@ export default function AiChat() {
     }
   };
   const generateTitle = async (chatData) => {
+    console.log("chatData:", chatData); // Log chatData to debug
+  
     if (!chatData.title || chatData.title.length === 0) {
       setGeneratedTitle("New Conversation");
       return; // Exit early
@@ -48,52 +50,71 @@ export default function AiChat() {
       setGeneratedTitle("Generating Title...");
       return; // Exit early
     }
-
+  
     try {
       const payload = {
         chat_history: chatData.messages?.map((chat) => ({
-          role: chat.ai ? "assistant" : "user", // Determine role based on whether it's an AI response
-          content: chat.ai ? chat.ai : chat.user, // Use AI response or user input
+          role: chat.ai ? "assistant" : "user",
+          content: chat.ai ? chat.ai : chat.user,
         })),
       };
-
+  
+      console.log("Payload:", payload); // Log payload to debug
+  
       const response = await axios.post(
         "http://localhost:8000/api/title",
-        payload, // Send the transformed payload
+        payload,
         {
           headers: {
-            "Content-Type": "application/json", // Set headers
+            "Content-Type": "application/json",
           },
         }
       );
-      console.log("API Response:", response.data); // Log the response
-      setGeneratedTitle(response.data.title);
+  
+      console.log("API Response:", response.data); // Log API response to debug
+  
+      if (!response.data || !response.data.title) {
+        throw new Error("Invalid title response from server");
+      }
+  
+      const newTitle = response.data.title;
+      setGeneratedTitle(newTitle);
+  
+      // Update chatData with the new title
+      const updatedChatData = { ...chatData, title: newTitle };
+      setChatData(updatedChatData);
+  
+      // Save the updated chatData back to the server
+      await api.put(`/history/${id}`, updatedChatData);
+  
     } catch (error) {
-      console.error("Error generating title:", error.message); // Log the specific error
+      console.error("Error generating title:", error); // Log the entire error object
       setGeneratedTitle("Error generating title");
     }
   };
-
   const putData = async () => {
     if (!userInput?.trim()) return;
     setLoadingMessageId(messageId);
-
+  
     try {
       const response = await runChat(userInput);
       if (!response || typeof response !== "string")
         throw new Error("Invalid response from the API");
-
-      await api.put(`/history/${id}`, {
+  
+      const updatedChatData = {
         ...chatData,
         messages: [
           ...(chatData.messages || []),
           { id: messageId, user: userInput, ai: response },
         ],
-      });
-
-      fetchData();
+      };
+  
+      // Save the updated chatData back to the server
+      await api.put(`/history/${id}`, updatedChatData);
+  
+      setChatData(updatedChatData);
     } catch (error) {
-      await api.put(`/history/${id}`, {
+      const updatedChatData = {
         ...chatData,
         messages: [
           ...(chatData.messages || []),
@@ -103,9 +124,12 @@ export default function AiChat() {
             ai: "An error occurred, please try again.",
           },
         ],
-      });
-
-      fetchData();
+      };
+  
+      // Save the updated chatData back to the server
+      await api.put(`/history/${id}`, updatedChatData);
+  
+      setChatData(updatedChatData);
     } finally {
       setLoadingMessageId(null);
     }
@@ -113,7 +137,7 @@ export default function AiChat() {
 
 
 
-  return (
+return (
 <>
   <main className="h-screen shadow-xl flex flex-col p-4">
     <AIHeader title={generatedTitle} />
