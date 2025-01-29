@@ -10,53 +10,23 @@ import Header from "@/components/layout/header";
 import AI_MIC from "@/assets/mic";
 import ChatSession from "@/components/layout/home/chat-session";
 import History from "@/components/features/history";
-import Form from '@/components/features/form'
+import Carousel1 from "@/components/features/desktopComponents/carousel";
 
 // Utilities
 import { useState } from "react";
 import { useHistory } from "@/store/useHistory";
 import { UserInputProvider } from "@/contexts/useUserContext";
 import { useParams } from "react-router-dom";
+import { useIntroStore } from "@/store/useIntro";
 
 export default function Home() {
   const menu = useHistory((state) => state.menu);
+  const carousel = useIntroStore((state) => state.carousel)
+  
   const { id } = useParams();
 
   const [cardAppear, setCardAppear] = useState(false);
   const [textContent, setTextContent] = useState("");
-
-  const [showContextForm, setShowContextForm] = useState(true); // State to control the visibility of the context form
-  const [businessType, setBusinessType] = useState("");  
-  const [monthlyRevenue, setMonthlyRevenue] = useState("");
-  const [businessPlacement, setBusinessPlacement] = useState("");
-  const [financeUnderstanding, setFinanceUnderstanding] = useState("");
-  const [comfortWithGraphs, setComfortWithGraphs] = useState("");
-
-  const handleContextSubmit = async (e) => {
-    e.preventDefault();
-    setShowContextForm(false);
-
-    const context = {
-      business_type: businessType,
-      monthly_revenue: monthlyRevenue,
-      business_placement: businessPlacement,
-      finance_understanding: financeUnderstanding,
-      comfort_with_graphs: comfortWithGraphs,
-    };
-
-    try {
-      // Send the context to the backend
-      await axios.post("http://localhost:8000/api/set-context", context);
-      console.log("Context submitted successfully");
-    } catch (error) {
-      console.error("Error submitting context:", error.message);
-    }
-  };
-
-  const handleSkipForm = () => {
-    setShowContextForm(false);
-    console.log("Form skipped, no context provided");
-  };
 
   return (
     <div className="relative gradient-custom h-screen w-full overflow-hidden">
@@ -123,23 +93,11 @@ export default function Home() {
               </form>
             </CardContent>
           </Card>
-          <section className="absolute p-4 flex-grow h-auto overflow-x-auto">
-            <Form
-              showContextForm={showContextForm}
-              handleContextSubmit={handleContextSubmit}
-              handleSkipForm={handleSkipForm}
-              businessType={businessType}
-              setBusinessType={setBusinessType}
-              monthlyRevenue={monthlyRevenue}
-              setMonthlyRevenue={setMonthlyRevenue}
-              businessPlacement={businessPlacement}
-              setBusinessPlacement={setBusinessPlacement}
-              financeUnderstanding={financeUnderstanding}
-              setFinanceUnderstanding={setFinanceUnderstanding}
-              comfortWithGraphs={comfortWithGraphs}
-              setComfortWithGraphs={setComfortWithGraphs}
-            />
-          </section>
+          {carousel && 
+            <section className="absolute flex-grow h-screen w-full overflow-x-auto">
+              <Carousel1/>
+            </section>
+          }
         </main>
       )}
 

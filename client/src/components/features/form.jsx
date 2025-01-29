@@ -21,7 +21,7 @@ export default function Form({
   return (
     <section className="p-4 flex-grow h-auto overflow-x-auto">
       {showContextForm && (
-        <div className="rounded-3xl bg-white p-8 shadow-lg w-full max-w-full h-[41.5rem] ">
+        <div className="rounded-3xl bg-white p-8 shadow-lg w-full max-w-full h-full md:h-[41.5rem] ">
           <h2 className="mx-2 mb-6 font-montserrat tracking-tight text-3xl font-bold text-zinc-700">
             Lastly, <br/>         
             <h4 className="font-montserrat font-bold text-zinc-700 text-xl leading-tight">

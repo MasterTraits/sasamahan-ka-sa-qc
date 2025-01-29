@@ -9,10 +9,14 @@ import {
 import Form from "../form";
 import IntroCarousel from "./IntroCarousel";
 import Features from "./featuresCarousel";
-import axios from "axios"; // Ensure axios is installed
+import axios from "axios"; 
+import { useIntroStore } from "@/store/useIntro";
 
 export default function Carousel1() {
   const [showContextForm, setShowContextForm] = useState(true); // State to control the visibility of the context form
+  const carousel = useIntroStore((state) => state.carousel)
+  const closeCarousel = useIntroStore((state) => state.closeCarousel)
+
   const [showCarousel, setShowCarousel] = useState(true); // State to control the visibility of the carousel
   const [businessType, setBusinessType] = useState("");
   const [monthlyRevenue, setMonthlyRevenue] = useState("");
@@ -24,7 +28,7 @@ export default function Carousel1() {
     e.preventDefault();
     setShowContextForm(false);
     
-    setShowCarousel(false); 
+    closeCarousel(); 
 
     const context = {
       business_type: businessType,
@@ -46,7 +50,7 @@ export default function Carousel1() {
 
   const handleSkipForm = () => {
     setShowContextForm(false);
-    setShowCarousel(false); // Close the carousel
+    closeCarousel(); 
   };
 
   // If the carousel is closed, don't render anything

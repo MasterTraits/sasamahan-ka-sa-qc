@@ -3,12 +3,13 @@ import { Button } from "@/components/ui/button";
 import InputArea from "../textarea";
 import UserChatBubble from "@/components/features/aiChatComponents/userChatBubble";
 import AiChatBubble from "@/components/features/aiChatComponents/aiChatBubble";
-import { dotStream } from "ldrs"; dotStream.register();
+import { dotStream } from "ldrs";
+dotStream.register();
 
 import { useParams, Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import runChat from "@/config/gemini";
-import axios from 'axios'
+import axios from "axios";
 import api from "@/config/jsonserver";
 import { useUserContext } from "@/contexts/useUserContext";
 import { formattedDate, randomId, messageId } from "@/lib/extraData";
@@ -51,9 +52,9 @@ export default function ChatSession({ textValue }) {
     };
   }, []);
 
-  useEffect(()=> {
-    generateTitle(chatData)
-  }, [chatData])
+  useEffect(() => {
+    generateTitle(chatData);
+  }, [chatData]);
 
   const fetchData = async () => {
     try {
@@ -95,45 +96,64 @@ export default function ChatSession({ textValue }) {
         }
       );
       console.log("API Response:", response.data); // Log the response
-      setGeneratedTitle(response.data.title);
+      if (!response.data || !response.data.title) {
+        throw new Error("Invalid title response from server");
+      }
+
+      const newTitle = response.data.title;
+      setGeneratedTitle(newTitle);
+
+      // Update chatData with the new title
+      const updatedChatData = { ...chatData, title: newTitle };
+      setChatData(updatedChatData);
+
+      // Save the updated chatData back to the server
+      await api.put(`/history/${id}`, updatedChatData);
     } catch (error) {
-      console.error("Error generating title:", error.message); // Log the specific error
+      console.error("Error generating title:", error); // Log the entire error object
       setGeneratedTitle("Error generating title");
     }
   };
 
   const putData = async () => {
     if (!userInput?.trim()) return;
-    setLoadingMessageId(messageId);
-
+    const newMessageId = Date.now().toString();
+    setLoadingMessageId(newMessageId);
+  
     try {
       const response = await runChat(userInput);
       if (!response || typeof response !== "string")
         throw new Error("Invalid response from the API");
-
-      await api.put(`/history/${id}`, {
+  
+      const updatedChatData = {
         ...chatData,
         messages: [
           ...(chatData.messages || []),
-          { id: messageId, user: userInput, ai: response },
+          { id: newMessageId, user: userInput, ai: response },
         ],
-      });
-
-      fetchData();
+      };
+  
+      // Save the updated chatData back to the server
+      await api.put(`/history/${id}`, updatedChatData);
+  
+      setChatData(updatedChatData);
     } catch (error) {
-      await api.put(`/history/${id}`, {
+      const updatedChatData = {
         ...chatData,
         messages: [
           ...(chatData.messages || []),
           {
-            id: messageId,
+            id: newMessageId,
             user: userInput,
             ai: "An error occurred, please try again.",
           },
         ],
-      });
-
-      fetchData();
+      };
+  
+      // Save the updated chatData back to the server
+      await api.put(`/history/${id}`, updatedChatData);
+  
+      setChatData(updatedChatData);
     } finally {
       setLoadingMessageId(null);
     }
@@ -141,7 +161,8 @@ export default function ChatSession({ textValue }) {
 
   const postData = async (initialData) => {
     if (!initialData?.trim()) return;
-    setLoadingMessageId(messageId);
+    const newMessageId = Date.now().toString();
+    setLoadingMessageId(newMessageId);
 
     try {
       const response = await runChat(userInput);
@@ -152,9 +173,7 @@ export default function ChatSession({ textValue }) {
         id: randomId,
         title: chatData.title || "New Chat",
         date: formattedDate,
-        messages: [
-          { id: messageId, user: initialData, ai: response },
-        ],
+        messages: [{ id: newMessageId, user: initialData, ai: response }],
       });
 
       window.location.href = `/home/${randomId}`;

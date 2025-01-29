@@ -2,8 +2,7 @@ import AIHeader from "./aiChatComponents/aiHeader";
 import Footer from "../layout/textarea";
 import UserChatBubble from "./aiChatComponents/userChatBubble";
 import AiChatBubble from "./aiChatComponents/aiChatBubble";
-import LdotStream from "@/components/ui/loading/dotStream";
-import Form from "@/components/features/form";
+import { dotStream } from "ldrs"; dotStream.register()
 
 import { UserInputContext } from "@/contexts/useUserContext";
 import runChat from "@/config/gemini";
@@ -11,7 +10,6 @@ import api from "@/config/jsonserver";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
-import { formattedDate, randomId, messageId } from "@/lib/extraData";
 
 export default function AiChat() {
   const { id } = useParams();
@@ -91,9 +89,11 @@ export default function AiChat() {
       setGeneratedTitle("Error generating title");
     }
   };
+
   const putData = async () => {
     if (!userInput?.trim()) return;
-    setLoadingMessageId(messageId);
+    const newMessageId = Date.now().toString();
+    setLoadingMessageId(newMessageId);
   
     try {
       const response = await runChat(userInput);
@@ -104,7 +104,7 @@ export default function AiChat() {
         ...chatData,
         messages: [
           ...(chatData.messages || []),
-          { id: messageId, user: userInput, ai: response },
+          { id: newMessageId, user: userInput, ai: response },
         ],
       };
   
@@ -118,7 +118,7 @@ export default function AiChat() {
         messages: [
           ...(chatData.messages || []),
           {
-            id: messageId,
+            id: newMessageId,
             user: userInput,
             ai: "An error occurred, please try again.",
           },
@@ -135,7 +135,6 @@ export default function AiChat() {
   };
 
 
-
 return (
 <>
   <main className="h-screen shadow-xl flex flex-col p-4">
@@ -146,7 +145,8 @@ return (
           <UserChatBubble message={chat.user} />
           {chat.id === loadingMessageId ? (
             <div className="flex justify-start p-4">
-              <LdotStream size="60" speed="2.5" color="black" />
+              <l-dot-stream size="60" speed="2.5" color="black">
+              </l-dot-stream>
             </div>
           ) : (
             chat.ai && <AiChatBubble message={chat.ai} />
